@@ -14,21 +14,28 @@ public class dumpObject implements Serializable
 {
     private static final long serialVersionUID = 8525574231L;
 
-    Thread t;
+    String threadName;
+    StackTraceElement[] ste;
     Throwable e;
 
-    dumpObject(Thread t, Throwable e)
+    public dumpObject(Thread t, Throwable e)
     {
-        this.t = t;
+        threadName = t.getName();
+        ste = t.getStackTrace();
         this.e = e;
     }
 
-    String getThreadName()
+    public String getThreadName()
     {
-        return t.getName();
+        return threadName;
     }
 
-    String getErrorMessage()
+    public StackTraceElement[] getStackTrace()
+    {
+        return ste;
+    }
+    
+    public String getErrorMessage()
     {
         return e.getMessage();
     }

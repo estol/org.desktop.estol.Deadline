@@ -8,7 +8,6 @@ import java.util.Date;
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import javax.swing.ListModel;
 import org.desktop.estol.skeleton.system.windowloader.LoadWindow;
 
 /**
@@ -20,13 +19,14 @@ public class MainWindow extends javax.swing.JFrame {
     /**
      * Creates new form MainWindow
      */
-    public MainWindow() {
+    public MainWindow()
+    { //throws Exception {
         initComponents();
         setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) /2);
         NotificationIcon.initSystrayIcon();
         NotificationIcon.displayMessage("Window created", "Main window loaded succesfully!", TrayIcon.MessageType.INFO);
         ml = new mainLogic(eventListModel);
-        DumpViewer.setEnabled(false);
+        //throw new Exception();
     }
     
     /**
@@ -58,6 +58,8 @@ public class MainWindow extends javax.swing.JFrame {
         SaveMenu = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         ExitButton = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        Preferences = new javax.swing.JMenuItem();
         DebugMenu = new javax.swing.JMenu();
         FireDebugMethod = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
@@ -196,6 +198,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
+        SaveMenu.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
         SaveMenu.setText("Save");
         SaveMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -215,6 +218,20 @@ public class MainWindow extends javax.swing.JFrame {
         FileMenu.add(ExitButton);
 
         MenuBar.add(FileMenu);
+
+        jMenu1.setText("Settings");
+        jMenu1.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
+
+        Preferences.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
+        Preferences.setText("Preferences");
+        Preferences.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PreferencesActionPerformed(evt);
+            }
+        });
+        jMenu1.add(Preferences);
+
+        MenuBar.add(jMenu1);
 
         DebugMenu.setText("Debug");
         DebugMenu.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
@@ -347,6 +364,17 @@ public class MainWindow extends javax.swing.JFrame {
         
     }//GEN-LAST:event_FileMenuFocusLost
 
+    private void PreferencesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PreferencesActionPerformed
+        if (p != null && p.isVisible()) {
+            p.setVisible(false);
+        } else {
+            if (p == null) {
+                p = new Preferences();
+            }
+            new LoadWindow(p);
+        }
+    }//GEN-LAST:event_PreferencesActionPerformed
+
     @Override
     public void dispose() {
         LoadWindow.windowDestroyed();
@@ -356,6 +384,7 @@ public class MainWindow extends javax.swing.JFrame {
     }
     private static DebugWindow dw;
     private static DumpViewer dv;
+    private static Preferences p;
     private mainLogic ml;
     protected DefaultListModel eventListModel = new DefaultListModel();
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -366,6 +395,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenu FileMenu;
     private javax.swing.JMenuItem FireDebugMethod;
     private javax.swing.JMenuBar MenuBar;
+    private javax.swing.JMenuItem Preferences;
     private javax.swing.JMenuItem SaveMenu;
     private javax.swing.JButton bt_Submit;
     private javax.swing.JCheckBox cb_EventRecurring;
@@ -373,6 +403,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JList jList1;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

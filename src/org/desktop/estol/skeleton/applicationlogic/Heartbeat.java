@@ -66,9 +66,10 @@ public class Heartbeat implements ThreadedUtility, Runnable
                     DeadlineCalendar dc = iterator.next();
                     if (new Date().after(dc.getDate()))
                     {
-                        dc.generateNotification().Notify();
+                        dc.generateNotification().Notify(ml);
                         iterator.remove();
                         ml.fillEventList();
+                        ml.saveDcc();
                     }
                 }
                 Thread.sleep(NumericUtilities.ONE_SECOND);

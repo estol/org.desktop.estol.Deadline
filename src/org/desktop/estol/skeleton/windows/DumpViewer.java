@@ -6,6 +6,7 @@ package org.desktop.estol.skeleton.windows;
 
 import java.awt.Toolkit;
 import java.io.File;
+import java.io.FileFilter;
 import javax.swing.JFileChooser;
 import org.desktop.estol.skeleton.commons.ObjectStreamReader;
 import org.desktop.estol.skeleton.core.dumpObject;
@@ -82,15 +83,37 @@ public class DumpViewer extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        JFileChooser fc = new JFileChooser();
+        JFileChooser fc = new JFileChooser(".");
+        //fc.addChoosableFileFilter(new dumpFilter());
         int rVal = fc.showOpenDialog(jMenu1);
         if (rVal == JFileChooser.APPROVE_OPTION)
         {
             File f = fc.getSelectedFile();
-            Object dump = new ObjectStreamReader(f.getAbsolutePath()).read();
+            dumpObject dump = (dumpObject) new ObjectStreamReader(f.getAbsolutePath()).read();
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private static class dumpFilter implements FileFilter
+    {
+
+        String getExtensions(File f)
+        {
+            String ext = null;
+            String s = f.getName();
+            int i = s.lastIndexOf(".");
+            if (i > 0 && i < s.length() - 1)
+            {
+                ext = s.substring(i+1).toLowerCase();
+            }
+            return ext;
+        }
+        
+        @Override
+        public boolean accept(File pathname) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+    }
+    
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         dispose();
     }//GEN-LAST:event_jMenuItem2ActionPerformed

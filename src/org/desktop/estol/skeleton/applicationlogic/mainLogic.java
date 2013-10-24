@@ -19,6 +19,8 @@ public class mainLogic
     private Settings settings;
     private boolean existsFlag = false;
     private static DeadlineCalendarContainer dcc;
+    private String dccPath = "dcc.bin";
+    private String notificationSoundPath = "Sounds" + System.getProperty("file.separator") + "ping2.wav";
     private DefaultListModel lm;
     private Heartbeat hb;
     
@@ -55,9 +57,9 @@ public class mainLogic
         {
             existsFlag = true;
             settings = (Settings) new ObjectStreamReader("settings.bin").read();
-            if (new File(settings.getPath()).exists())
+            if (new File(settings.getDccPath()).exists())
             {
-                dcc = (DeadlineCalendarContainer) new ObjectStreamReader(settings.getPath()).read();
+                dcc = (DeadlineCalendarContainer) new ObjectStreamReader(settings.getDccPath()).read();
             }
             else
             {
@@ -68,7 +70,8 @@ public class mainLogic
         else
         {
             settings = new Settings();
-            settings.addPath("dcc.bin");
+            settings.addDccPath(dccPath);
+            settings.addNotificationSoundPath(notificationSoundPath);
             dcc = new DeadlineCalendarContainer();
             saveSettings();
             if (hb != null && !hb.isRunning())
@@ -102,14 +105,19 @@ public class mainLogic
         new Thread(new ObjectStreamWriter(settings, "settings.bin")).start();
     }
     
+    public void saveSettings(Settings s)
+    {
+        new Thread(new ObjectStreamWriter(s, "settings.bin")).start();
+    }
+    
     public void saveDcc()
     {
-        new Thread(new ObjectStreamWriter(dcc, settings.getPath())).start();
+        new Thread(new ObjectStreamWriter(dcc, settings.getDccPath())).start();
     }
     
     private void loadDcc()
     {
-        dcc = (DeadlineCalendarContainer) new ObjectStreamReader(settings.getPath()).read();
+        dcc = (DeadlineCalendarContainer) new ObjectStreamReader(settings.getDccPath()).read();
     }
     
     protected void fillEventList()
@@ -125,6 +133,11 @@ public class mainLogic
         {
             startHeartbeat();
         }
+    }
+
+    protected String getNotificationSoundPath()
+    {
+        return notificationSoundPath;
     }
     
 }

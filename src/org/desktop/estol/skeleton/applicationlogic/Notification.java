@@ -11,11 +11,13 @@ public class Notification
 {
     private String notificationName;
     private String notificationDescription;
+    private WavePlayer wavePlayer;
     
     public Notification(String notificationName, String notificationDescription)
     {
         this.notificationName = notificationName;
         this.notificationDescription = notificationDescription;
+        wavePlayer = new WavePlayer();
     }
     
     public String getNotificationName()
@@ -28,10 +30,10 @@ public class Notification
         return notificationDescription;
     }
     
-    public void Notify()
+    public void Notify(mainLogic ml)
     {
         trayNotification();
-        audioNotification();
+        audioNotification(ml);
     }
     
     private void trayNotification()
@@ -39,9 +41,9 @@ public class Notification
         NotificationIcon.displayMessage(getNotificationName(), getNotificationDescription(), TrayIcon.MessageType.INFO);
     }
     
-    private void audioNotification()
+    private void audioNotification(mainLogic ml)
     {
-        // NYI
-        // TODO implement this function
+        // TODO get this from the settings
+        wavePlayer.playSound(ml.getNotificationSoundPath());
     }
 }
