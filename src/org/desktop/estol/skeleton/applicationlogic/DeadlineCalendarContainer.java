@@ -9,20 +9,24 @@ import java.util.ArrayList;
  */
 public class DeadlineCalendarContainer implements Serializable
 {
-    private long _id = 5800435840L;
+    private static final long serialVersionUID = 5800435840L;
     
     private ArrayList<DeadlineCalendar> eventList = new ArrayList();
-    private String directory;
-    private String filename;
     
-    public DeadlineCalendarContainer(String directory, String filename)
-    {
-            this.directory = directory;
-            this.filename = filename;
-    }
+    public DeadlineCalendarContainer() {}
     
     public void addEvent(DeadlineCalendar dc)
     {
-        
+        eventList.add(dc);
+    }
+    
+    public DeadlineCalendar getEvent(int index)
+    {
+        return eventList.get(index);
+    }
+    
+    public ArrayList<DeadlineCalendar> getEvents()
+    {
+        return eventList;
     }
 }

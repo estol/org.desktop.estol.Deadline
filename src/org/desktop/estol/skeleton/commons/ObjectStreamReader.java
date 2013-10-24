@@ -37,7 +37,7 @@ public class ObjectStreamReader
         }
         catch (IOException | ClassNotFoundException e)
         {
-            DebugUtilities.addDebugMessage("Reading from " + path + "failed!\nException occured: " + e.getMessage());
+            DebugUtilities.addDebugMessage("Reading from " + path + " failed!\nException occured: " + e.getMessage());
         }
         return rObject;
     }

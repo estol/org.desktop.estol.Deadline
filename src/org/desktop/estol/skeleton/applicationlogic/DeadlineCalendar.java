@@ -17,7 +17,7 @@ public class DeadlineCalendar implements Serializable
      * DeadlineCalendarContainer, which is also serializable, and is written
      * to the disk.
      */
-    private long _id = 6575471230L;
+    private static final long serialVersionUID = 6575471230L;
     
     private Date d;
     private String createdTimeStamp;

@@ -14,6 +14,7 @@ public class Core {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        //Thread.setDefaultUncaughtExceptionHandler(new GlobalExceptionHandler()); // see GlobalExceptionHandler.java
         new LoadWindow(new MainWindow());
     }
 }
