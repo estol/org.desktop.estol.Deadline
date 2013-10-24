@@ -9,6 +9,9 @@ import org.desktop.estol.skeleton.commons.NotificationIcon;
 import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import javax.swing.Box;
+import org.desktop.estol.skeleton.applicationlogic.DeadlineCalendar;
+import org.desktop.estol.skeleton.commons.ObjectStreamReader;
+import org.desktop.estol.skeleton.commons.ObjectStreamWriter;
 import org.desktop.estol.skeleton.debug.DebugUtilities;
 import org.desktop.estol.skeleton.system.windowloader.LoadWindow;
 
@@ -26,7 +29,7 @@ public class MainWindow extends javax.swing.JFrame {
         setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) /2);
         NotificationIcon.initSystrayIcon();
         NotificationIcon.displayMessage("Window created", "Main window loaded succesfully!", TrayIcon.MessageType.INFO);
-        new mainLogic(js_DateTimeSpinner);
+        ml = new mainLogic(js_EventDateTime);
     }
     
     /**
@@ -39,7 +42,14 @@ public class MainWindow extends javax.swing.JFrame {
     private void initComponents() {
 
         jp_timePanel = new javax.swing.JPanel();
-        js_DateTimeSpinner = new javax.swing.JSpinner();
+        js_EventDateTime = new javax.swing.JSpinner();
+        jLabel1 = new javax.swing.JLabel();
+        tf_EventName = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jLabel3 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         MenuBar = new javax.swing.JMenuBar();
         FileMenu = new javax.swing.JMenu();
         ExitButton = new javax.swing.JMenuItem();
@@ -61,23 +71,56 @@ public class MainWindow extends javax.swing.JFrame {
 
         jp_timePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Time Panel"));
 
-        js_DateTimeSpinner.setModel(new javax.swing.SpinnerDateModel());
+        js_EventDateTime.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.MINUTE));
+
+        jLabel1.setText("Date and Time of event");
+
+        jLabel2.setText("Event name");
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        jLabel3.setText("Event description (optional)");
+
+        jButton1.setText("Submit");
 
         javax.swing.GroupLayout jp_timePanelLayout = new javax.swing.GroupLayout(jp_timePanel);
         jp_timePanel.setLayout(jp_timePanelLayout);
         jp_timePanelLayout.setHorizontalGroup(
             jp_timePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jp_timePanelLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jp_timePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(js_DateTimeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(267, Short.MAX_VALUE))
+                .addGroup(jp_timePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
+                .addGroup(jp_timePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(js_EventDateTime, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tf_EventName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         jp_timePanelLayout.setVerticalGroup(
             jp_timePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jp_timePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(js_DateTimeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(121, Short.MAX_VALUE))
+                .addGroup(jp_timePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(js_EventDateTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jp_timePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tf_EventName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jp_timePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jp_timePanelLayout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)))
+                .addGap(0, 20, Short.MAX_VALUE))
         );
 
         FileMenu.setText("File");
@@ -137,7 +180,9 @@ public class MainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void FireDebugMethodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FireDebugMethodActionPerformed
-        
+        DeadlineCalendar dc = new DeadlineCalendar();
+        //new Thread(new ObjectStreamWriter(dc, "testfile.object")).run();
+        DebugUtilities.addDebugMessage(new ObjectStreamReader("testfile.object").read().toString());
     }//GEN-LAST:event_FireDebugMethodActionPerformed
 
     private void DebugConsoleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DebugConsoleActionPerformed
@@ -165,6 +210,7 @@ public class MainWindow extends javax.swing.JFrame {
         super.dispose();
     }
     private static DebugWindow dw;
+    private mainLogic ml;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem DebugConsole;
     private javax.swing.JMenu DebugMenu;
@@ -172,8 +218,15 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenu FileMenu;
     private javax.swing.JMenuItem FireDebugMethod;
     private javax.swing.JMenuBar MenuBar;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JPanel jp_timePanel;
-    private javax.swing.JSpinner js_DateTimeSpinner;
+    private javax.swing.JSpinner js_EventDateTime;
+    private javax.swing.JTextField tf_EventName;
     // End of variables declaration//GEN-END:variables
 }
