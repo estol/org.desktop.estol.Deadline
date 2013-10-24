@@ -55,7 +55,15 @@ public class mainLogic
         {
             existsFlag = true;
             settings = (Settings) new ObjectStreamReader("settings.bin").read();
-            dcc = (DeadlineCalendarContainer) new ObjectStreamReader(settings.getPath()).read();
+            if (new File(settings.getPath()).exists())
+            {
+                dcc = (DeadlineCalendarContainer) new ObjectStreamReader(settings.getPath()).read();
+            }
+            else
+            {
+                dcc = new DeadlineCalendarContainer();
+                saveDcc();
+            }
         }
         else
         {
@@ -63,9 +71,9 @@ public class mainLogic
             settings.addPath("dcc.bin");
             dcc = new DeadlineCalendarContainer();
             saveSettings();
-            if (!hb.isRunning())
+            if (hb != null && !hb.isRunning())
             {
-            startHeartbeat();
+                startHeartbeat();
             }
         }
     }
@@ -104,7 +112,7 @@ public class mainLogic
         dcc = (DeadlineCalendarContainer) new ObjectStreamReader(settings.getPath()).read();
     }
     
-    private void fillEventList()
+    protected void fillEventList()
     {
         lm.clear();
         ArrayList<DeadlineCalendar> eventList = dcc.getEvents();

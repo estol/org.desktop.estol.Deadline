@@ -1,5 +1,8 @@
 package org.desktop.estol.skeleton.applicationlogic;
 
+import java.awt.TrayIcon;
+import org.desktop.estol.skeleton.commons.NotificationIcon;
+
 /**
  *
  * @author estol
@@ -23,5 +26,22 @@ public class Notification
     public String getNotificationDescription()
     {
         return notificationDescription;
+    }
+    
+    public void Notify()
+    {
+        trayNotification();
+        audioNotification();
+    }
+    
+    private void trayNotification()
+    {
+        NotificationIcon.displayMessage(getNotificationName(), getNotificationDescription(), TrayIcon.MessageType.INFO);
+    }
+    
+    private void audioNotification()
+    {
+        // NYI
+        // TODO implement this function
     }
 }

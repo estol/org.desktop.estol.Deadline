@@ -27,7 +27,7 @@ public class Heartbeat implements ThreadedUtility, Runnable
     
     @Override
     public void display() {
-        // NYI
+        // Not Used!
     }
 
     @Override
@@ -66,9 +66,9 @@ public class Heartbeat implements ThreadedUtility, Runnable
                     DeadlineCalendar dc = iterator.next();
                     if (new Date().after(dc.getDate()))
                     {
-                        Notification notification = dc.generateNotification();
-                        NotificationIcon.displayMessage(notification.getNotificationName(), notification.getNotificationDescription(), TrayIcon.MessageType.INFO);
+                        dc.generateNotification().Notify();
                         iterator.remove();
+                        ml.fillEventList();
                     }
                 }
                 Thread.sleep(NumericUtilities.ONE_SECOND);

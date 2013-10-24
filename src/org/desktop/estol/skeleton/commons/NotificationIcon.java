@@ -33,8 +33,8 @@ public enum NotificationIcon
                 DebugUtilities.addDebugMessage
                         ("Systray icon is not supported on this platform!");
             }
-            icon = new TrayIcon(CommonUtilities.createImage
-                    ("TrayIcon.gif", "Tray icon", NotificationIcon.getClass()));
+            icon = new TrayIcon(CommonUtilities.createImage("TrayIcon.gif", "Tray icon", NotificationIcon.getClass()));
+            icon.setImageAutoSize(true);
             icon.setToolTip("org.desktop.estol.sekleton");
             
             MenuItem recordItem = new MenuItem("Test menu item");
