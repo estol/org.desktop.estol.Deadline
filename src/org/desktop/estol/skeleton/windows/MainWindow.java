@@ -1,18 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.desktop.estol.skeleton.windows;
 
 import org.desktop.estol.skeleton.applicationlogic.mainLogic;
 import org.desktop.estol.skeleton.commons.NotificationIcon;
 import java.awt.Toolkit;
 import java.awt.TrayIcon;
+import java.util.Date;
 import javax.swing.Box;
-import org.desktop.estol.skeleton.applicationlogic.DeadlineCalendar;
-import org.desktop.estol.skeleton.commons.ObjectStreamReader;
-import org.desktop.estol.skeleton.commons.ObjectStreamWriter;
-import org.desktop.estol.skeleton.debug.DebugUtilities;
+import javax.swing.JOptionPane;
 import org.desktop.estol.skeleton.system.windowloader.LoadWindow;
 
 /**
@@ -47,9 +41,9 @@ public class MainWindow extends javax.swing.JFrame {
         tf_EventName = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        ta_EventDescription = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        bt_Submit = new javax.swing.JButton();
         MenuBar = new javax.swing.JMenuBar();
         FileMenu = new javax.swing.JMenu();
         ExitButton = new javax.swing.JMenuItem();
@@ -71,19 +65,24 @@ public class MainWindow extends javax.swing.JFrame {
 
         jp_timePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Time Panel"));
 
-        js_EventDateTime.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.MINUTE));
+        js_EventDateTime.setModel(new javax.swing.SpinnerDateModel());
 
         jLabel1.setText("Date and Time of event");
 
         jLabel2.setText("Event name");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        ta_EventDescription.setColumns(20);
+        ta_EventDescription.setRows(5);
+        jScrollPane1.setViewportView(ta_EventDescription);
 
         jLabel3.setText("Event description (optional)");
 
-        jButton1.setText("Submit");
+        bt_Submit.setText("Submit");
+        bt_Submit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_SubmitActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jp_timePanelLayout = new javax.swing.GroupLayout(jp_timePanel);
         jp_timePanel.setLayout(jp_timePanelLayout);
@@ -95,7 +94,7 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(bt_Submit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
                 .addGroup(jp_timePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(js_EventDateTime, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -119,7 +118,7 @@ public class MainWindow extends javax.swing.JFrame {
                     .addGroup(jp_timePanelLayout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
+                        .addComponent(bt_Submit)))
                 .addGap(0, 20, Short.MAX_VALUE))
         );
 
@@ -180,9 +179,9 @@ public class MainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void FireDebugMethodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FireDebugMethodActionPerformed
-        DeadlineCalendar dc = new DeadlineCalendar();
+        //DeadlineCalendar dc = new DeadlineCalendar();
         //new Thread(new ObjectStreamWriter(dc, "testfile.object")).run();
-        DebugUtilities.addDebugMessage(new ObjectStreamReader("testfile.object").read().toString());
+        //DebugUtilities.addDebugMessage(new ObjectStreamReader("testfile.object").read().toString());
     }//GEN-LAST:event_FireDebugMethodActionPerformed
 
     private void DebugConsoleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DebugConsoleActionPerformed
@@ -204,9 +203,25 @@ public class MainWindow extends javax.swing.JFrame {
         LoadWindow.Terminate();
     }//GEN-LAST:event_ExitButtonActionPerformed
 
+    private void bt_SubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_SubmitActionPerformed
+        // TODO: find a more elegant solution to escape the function than blank return statements. Maybe override the void type?
+        if (new Date().after((Date) js_EventDateTime.getValue()))
+        {
+            JOptionPane.showMessageDialog(rootPane, "The event can't be in the past!");
+            return;
+        }
+        if ("".equals(tf_EventName.getText()))
+        {
+            JOptionPane.showMessageDialog(rootPane, "Your event doesn't have a title!");
+            return;
+        }
+        
+    }//GEN-LAST:event_bt_SubmitActionPerformed
+
     @Override
     public void dispose() {
         LoadWindow.windowDestroyed();
+        NotificationIcon.removeSystrayIcon();
         super.dispose();
     }
     private static DebugWindow dw;
@@ -218,15 +233,15 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenu FileMenu;
     private javax.swing.JMenuItem FireDebugMethod;
     private javax.swing.JMenuBar MenuBar;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton bt_Submit;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JPanel jp_timePanel;
     private javax.swing.JSpinner js_EventDateTime;
+    private javax.swing.JTextArea ta_EventDescription;
     private javax.swing.JTextField tf_EventName;
     // End of variables declaration//GEN-END:variables
 }
