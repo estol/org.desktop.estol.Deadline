@@ -114,6 +114,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         cb_EventRecurring.setFont(new java.awt.Font("Ubuntu", 0, 11)); // NOI18N
         cb_EventRecurring.setText("One time event");
+        cb_EventRecurring.setEnabled(false);
         cb_EventRecurring.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cb_EventRecurringActionPerformed(evt);
@@ -164,7 +165,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Events", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Ubuntu Condensed", 0, 12))); // NOI18N
 
-        jl_EventList.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
+        jl_EventList.setFont(new java.awt.Font("Ubuntu Mono", 0, 14)); // NOI18N
         jl_EventList.setModel(eventListModel);
         jl_EventList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane3.setViewportView(jl_EventList);
@@ -312,7 +313,7 @@ public class MainWindow extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Your event doesn't have a title!", "User error!", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
-        ml.addDeadlineCalendarEvent((Date)js_EventDateTime.getValue(), tf_EventName.getText(), ta_EventDescription.getText(), cb_EventRecurring.isSelected());
+        ml.addDeadlineCalendarEvent((Date)js_EventDateTime.getValue(), tf_EventName.getText(), ta_EventDescription.getText(), false);
         ml.saveDcc();
     }//GEN-LAST:event_bt_SubmitActionPerformed
 

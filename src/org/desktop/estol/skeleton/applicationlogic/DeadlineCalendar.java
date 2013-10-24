@@ -74,6 +74,11 @@ public class DeadlineCalendar implements Serializable
         return createdTimeStamp;
     }
     
+    public String generateListFriendlyName()
+    {
+        return getDate().toString() + " - " + getName();
+    }
+    
     public Notification generateNotification()
     {
         return new Notification(notificationName, notificationDescription);

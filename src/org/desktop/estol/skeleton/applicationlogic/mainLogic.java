@@ -19,18 +19,26 @@ public class mainLogic
     private Settings settings;
     private boolean existsFlag = false;
     private static DeadlineCalendarContainer dcc;
+    private DefaultListModel lm;
+    private Heartbeat hb;
     
     public mainLogic(DefaultListModel lm)
     {
         initialize();
+        this.lm = lm;
         if (existsFlag)
         {
-            loadDcc(lm);
+            loadDcc();
+            fillEventList();
         }
     }
     
     public void shutdown()
     {
+        if (hb.isRunning())
+        {
+            hb.shutdown();
+        }
         saveSettings();
         saveDcc();
     }
@@ -38,6 +46,7 @@ public class mainLogic
     private void initialize()
     {
         loadSettings();
+        hb = new Heartbeat(this);
     }
     
     private void loadSettings()
@@ -54,6 +63,10 @@ public class mainLogic
             settings.addPath("dcc.bin");
             dcc = new DeadlineCalendarContainer();
             saveSettings();
+            if (!hb.isRunning())
+            {
+            startHeartbeat();
+            }
         }
     }
     
@@ -61,11 +74,19 @@ public class mainLogic
     {
         DeadlineCalendar dcEvent = new DeadlineCalendar(d, notificationName, notificationDescription, recurring);
         dcc.addEvent(dcEvent);
+        saveDcc();
+        fillEventList();
+        hb.triggerUpdate();
     }
     
     public DeadlineCalendarContainer getDcc()
     {
         return dcc;
+    }
+    
+    private void startHeartbeat()
+    {
+        new Thread(hb).start();
     }
     
     private void saveSettings()
@@ -78,14 +99,24 @@ public class mainLogic
         new Thread(new ObjectStreamWriter(dcc, settings.getPath())).start();
     }
     
-    public final void loadDcc(DefaultListModel lm)
+    private void loadDcc()
     {
         dcc = (DeadlineCalendarContainer) new ObjectStreamReader(settings.getPath()).read();
+    }
+    
+    private void fillEventList()
+    {
+        lm.clear();
         ArrayList<DeadlineCalendar> eventList = dcc.getEvents();
         Iterator<DeadlineCalendar> iterator = eventList.iterator();
         while(iterator.hasNext())
         {
-            lm.addElement(iterator.next().getName());
+            lm.addElement(iterator.next().generateListFriendlyName());
+        }
+        if (!hb.isRunning())
+        {
+            startHeartbeat();
         }
     }
+    
 }
