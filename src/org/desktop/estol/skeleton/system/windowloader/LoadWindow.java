@@ -79,6 +79,22 @@ public class LoadWindow
         new windowManager().showWindow(w);
     }
 
+    public static JFrame getWindow(String title)
+    {
+        JFrame theWindow = null;
+                
+        for (JFrame w : windows)
+        {
+            if (title.equals(w.getTitle()))
+            {
+                theWindow = w;
+                break;
+            }
+        }
+        
+        return theWindow;
+    }
+    
     public static void Terminate()
     {
         for (JFrame w : windows)

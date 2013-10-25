@@ -6,8 +6,12 @@ package org.desktop.estol.skeleton.windows;
 
 import java.awt.Toolkit;
 import java.io.File;
-import java.util.ArrayList;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import org.desktop.estol.skeleton.applicationlogic.Settings;
 import org.desktop.estol.skeleton.applicationlogic.WavePlayer;
+import org.desktop.estol.skeleton.applicationlogic.mainLogic;
+import org.desktop.estol.skeleton.debug.DebugUtilities;
 import org.desktop.estol.skeleton.system.windowloader.LoadWindow;
 
 /**
@@ -54,6 +58,7 @@ public class Preferences extends javax.swing.JFrame {
         setResizable(false);
         setType(java.awt.Window.Type.UTILITY);
 
+        tf_CalendarFilePath.setEditable(false);
         tf_CalendarFilePath.setFont(new java.awt.Font("Ubuntu Mono", 0, 12)); // NOI18N
         tf_CalendarFilePath.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -66,6 +71,11 @@ public class Preferences extends javax.swing.JFrame {
 
         bt_CalendarFileFolder.setFont(new java.awt.Font("Ubuntu Condensed", 0, 12)); // NOI18N
         bt_CalendarFileFolder.setText("Browse");
+        bt_CalendarFileFolder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_CalendarFileFolderActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
         jLabel2.setText("Notification Sound");
@@ -88,9 +98,19 @@ public class Preferences extends javax.swing.JFrame {
 
         bt_SavePreferences.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
         bt_SavePreferences.setText("Save");
+        bt_SavePreferences.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_SavePreferencesActionPerformed(evt);
+            }
+        });
 
         bt_DiscardChanges.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
         bt_DiscardChanges.setText("Discard");
+        bt_DiscardChanges.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_DiscardChangesActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -147,13 +167,41 @@ public class Preferences extends javax.swing.JFrame {
     }//GEN-LAST:event_tf_CalendarFilePathActionPerformed
 
     private void cb_NotificationSoundsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_NotificationSoundsActionPerformed
-        // TODO add your handling code here:
+        soundPath = "Sounds" + System.getProperty("file.separator") +cb_NotificationSounds.getSelectedItem();
+        DebugUtilities.addDebugMessage(soundPath);
     }//GEN-LAST:event_cb_NotificationSoundsActionPerformed
 
     private void bt_PreviewNotificationSoundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_PreviewNotificationSoundActionPerformed
-        String path = "Sounds" + System.getProperty("file.separator") +cb_NotificationSounds.getSelectedItem();
-        new WavePlayer().playSound(path);
+        soundPath = "Sounds" + System.getProperty("file.separator") +cb_NotificationSounds.getSelectedItem();
+        new WavePlayer().playSound(soundPath);
     }//GEN-LAST:event_bt_PreviewNotificationSoundActionPerformed
+
+    private void bt_CalendarFileFolderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_CalendarFileFolderActionPerformed
+        JFileChooser fc = new JFileChooser(System.getProperty("user.home"));
+        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
+        {
+            dccPath = fc.getSelectedFile().getAbsolutePath() + System.getProperty("file.separator") + "dcc.bin";
+            tf_CalendarFilePath.setText(dccPath);
+        }
+    }//GEN-LAST:event_bt_CalendarFileFolderActionPerformed
+
+    private void bt_DiscardChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_DiscardChangesActionPerformed
+        dispose();
+    }//GEN-LAST:event_bt_DiscardChangesActionPerformed
+
+    private void bt_SavePreferencesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_SavePreferencesActionPerformed
+        settings.addDccPath(dccPath);
+        settings.addNotificationSoundPath(soundPath);
+        mainLogic.saveSettings(settings);
+        /*
+        JFrame mainWindow = LoadWindow.getWindow("Main Window");
+        if (!mainWindow.isEnabled())
+        {
+            mainWindow.setEnabled(true);
+        }
+        */
+    }//GEN-LAST:event_bt_SavePreferencesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -189,6 +237,7 @@ public class Preferences extends javax.swing.JFrame {
             }
         });
     }
+    
     @Override
     public void dispose() {
         LoadWindow.windowDestroyed();
@@ -210,6 +259,9 @@ public class Preferences extends javax.swing.JFrame {
         }
     }
     
+    private Settings settings = new Settings();
+    private String dccPath;
+    private String soundPath;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_CalendarFileFolder;
     private javax.swing.JButton bt_DiscardChanges;

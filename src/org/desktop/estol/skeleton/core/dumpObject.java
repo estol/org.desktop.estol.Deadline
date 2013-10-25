@@ -15,29 +15,22 @@ public class dumpObject implements Serializable
     private static final long serialVersionUID = 8525574231L;
 
     String threadName;
-    StackTraceElement[] ste;
-    Throwable e;
+    String errorMessage;
 
     public dumpObject(Thread t, Throwable e)
     {
-        threadName = t.getName();
-        ste = t.getStackTrace();
-        this.e = e;
+        threadName   = t.getName();
+        errorMessage = e.getMessage();
     }
 
     public String getThreadName()
     {
         return threadName;
     }
-
-    public StackTraceElement[] getStackTrace()
-    {
-        return ste;
-    }
     
     public String getErrorMessage()
     {
-        return e.getMessage();
+        return errorMessage;
     }
 }
     

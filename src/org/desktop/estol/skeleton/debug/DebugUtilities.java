@@ -474,7 +474,7 @@ public class DebugUtilities
         }
         if (!d.isPaneSet())
         {
-            NotificationIcon.displayMessage("Debug message added!", msg, TrayIcon.MessageType.INFO);
+            //NotificationIcon.displayMessage("Debug message added!", msg, TrayIcon.MessageType.INFO);
         }
         d.addMessage(msg);
     }

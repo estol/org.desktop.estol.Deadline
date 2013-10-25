@@ -21,17 +21,19 @@ public class mainLogic
     private static DeadlineCalendarContainer dcc;
     private String dccPath = "dcc.bin";
     private String notificationSoundPath = "Sounds" + System.getProperty("file.separator") + "ping2.wav";
-    private DefaultListModel lm;
+    private DefaultListModel clm;
+    private DefaultListModel plm;
     private Heartbeat hb;
     
-    public mainLogic(DefaultListModel lm)
+    public mainLogic(DefaultListModel clm, DefaultListModel plm)
     {
         initialize();
-        this.lm = lm;
+        this.clm = clm;
+        this.plm = plm;
         if (existsFlag)
         {
             loadDcc();
-            fillEventList();
+            filCurrentlEventList();
         }
     }
     
@@ -70,14 +72,16 @@ public class mainLogic
         else
         {
             settings = new Settings();
-            settings.addDccPath(dccPath);
             settings.addNotificationSoundPath(notificationSoundPath);
+            settings.addDccPath(dccPath);
             dcc = new DeadlineCalendarContainer();
             saveSettings();
+            saveDcc();
             if (hb != null && !hb.isRunning())
             {
                 startHeartbeat();
             }
+            //LoadWindow.getWindow("Main Window").setEnabled(false);
         }
     }
     
@@ -86,7 +90,7 @@ public class mainLogic
         DeadlineCalendar dcEvent = new DeadlineCalendar(d, notificationName, notificationDescription, recurring);
         dcc.addEvent(dcEvent);
         saveDcc();
-        fillEventList();
+        filCurrentlEventList();
         hb.triggerUpdate();
     }
     
@@ -105,7 +109,7 @@ public class mainLogic
         new Thread(new ObjectStreamWriter(settings, "settings.bin")).start();
     }
     
-    public void saveSettings(Settings s)
+    public static void saveSettings(Settings s)
     {
         new Thread(new ObjectStreamWriter(s, "settings.bin")).start();
     }
@@ -120,16 +124,21 @@ public class mainLogic
         dcc = (DeadlineCalendarContainer) new ObjectStreamReader(settings.getDccPath()).read();
     }
     
-    protected void fillEventList()
+    protected void fillPastEventList(DeadlineCalendar dc)
     {
-        lm.clear();
+        plm.addElement(dc.generateListFriendlyName());
+    }
+    
+    protected void filCurrentlEventList()
+    {
+        clm.clear();
         ArrayList<DeadlineCalendar> eventList = dcc.getEvents();
         Iterator<DeadlineCalendar> iterator = eventList.iterator();
         while(iterator.hasNext())
         {
-            lm.addElement(iterator.next().generateListFriendlyName());
+            clm.addElement(iterator.next().generateListFriendlyName());
         }
-        if (!hb.isRunning())
+        if (hb != null && !hb.isRunning())
         {
             startHeartbeat();
         }

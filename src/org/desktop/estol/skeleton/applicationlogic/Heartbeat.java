@@ -1,10 +1,8 @@
 package org.desktop.estol.skeleton.applicationlogic;
 
-import java.awt.TrayIcon;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-import org.desktop.estol.skeleton.commons.NotificationIcon;
 import org.desktop.estol.skeleton.commons.NumericUtilities;
 import org.desktop.estol.skeleton.commons.ThreadedUtility;
 import org.desktop.estol.skeleton.debug.DebugUtilities;
@@ -67,8 +65,9 @@ public class Heartbeat implements ThreadedUtility, Runnable
                     if (new Date().after(dc.getDate()))
                     {
                         dc.generateNotification().Notify(ml);
+                        ml.fillPastEventList(dc);
                         iterator.remove();
-                        ml.fillEventList();
+                        ml.filCurrentlEventList();
                         ml.saveDcc();
                     }
                 }

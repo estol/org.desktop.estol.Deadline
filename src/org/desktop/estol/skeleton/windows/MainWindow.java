@@ -3,7 +3,6 @@ package org.desktop.estol.skeleton.windows;
 import org.desktop.estol.skeleton.applicationlogic.mainLogic;
 import org.desktop.estol.skeleton.commons.NotificationIcon;
 import java.awt.Toolkit;
-import java.awt.TrayIcon;
 import java.util.Date;
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
@@ -24,9 +23,9 @@ public class MainWindow extends javax.swing.JFrame {
         initComponents();
         setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) /2);
         NotificationIcon.initSystrayIcon();
-        NotificationIcon.displayMessage("Window created", "Main window loaded succesfully!", TrayIcon.MessageType.INFO);
-        ml = new mainLogic(eventListModel);
+        ml = new mainLogic(currentEventListModel, pastEventListModel);
         //throw new Exception();
+        //hideTimePanel();
     }
     
     /**
@@ -50,11 +49,16 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         bt_Submit = new javax.swing.JButton();
         cb_EventRecurring = new javax.swing.JCheckBox();
+        jl_PastEventList = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jl_EventList = new javax.swing.JList();
+        jl_CurrentEventList = new javax.swing.JList();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jList2 = new javax.swing.JList();
         MenuBar = new javax.swing.JMenuBar();
         FileMenu = new javax.swing.JMenu();
+        m_NewEvent = new javax.swing.JMenuItem();
         SaveMenu = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         ExitButton = new javax.swing.JMenuItem();
@@ -76,7 +80,7 @@ public class MainWindow extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Main Window");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setMinimumSize(new java.awt.Dimension(900, 600));
+        setMinimumSize(new java.awt.Dimension(30, 30));
         setName("JFrame"); // NOI18N
         addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -161,32 +165,58 @@ public class MainWindow extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(cb_EventRecurring)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(bt_Submit))
         );
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Events", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Ubuntu Condensed", 0, 12))); // NOI18N
+        jl_PastEventList.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
+        jl_PastEventList.setName(""); // NOI18N
 
-        jl_EventList.setFont(new java.awt.Font("Ubuntu Mono", 0, 14)); // NOI18N
-        jl_EventList.setModel(eventListModel);
-        jl_EventList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane3.setViewportView(jl_EventList);
+        jl_CurrentEventList.setFont(new java.awt.Font("Ubuntu Mono", 0, 14)); // NOI18N
+        jl_CurrentEventList.setModel(currentEventListModel);
+        jl_CurrentEventList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane3.setViewportView(jl_CurrentEventList);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane3)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        jl_PastEventList.addTab("Current events", jPanel1);
+
+        jList2.setFont(new java.awt.Font("Ubuntu Mono", 0, 14)); // NOI18N
+        jList2.setModel(pastEventListModel);
+        jList2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane4.setViewportView(jList2);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jl_PastEventList.addTab("Past events", jPanel2);
 
         MenuBar.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
 
@@ -197,6 +227,15 @@ public class MainWindow extends javax.swing.JFrame {
                 FileMenuFocusLost(evt);
             }
         });
+
+        m_NewEvent.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
+        m_NewEvent.setText("New event...");
+        m_NewEvent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_NewEventActionPerformed(evt);
+            }
+        });
+        FileMenu.add(m_NewEvent);
 
         SaveMenu.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
         SaveMenu.setText("Save");
@@ -276,18 +315,20 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jp_timePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addComponent(jl_PastEventList, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jp_timePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(367, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jp_timePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jl_PastEventList))
+                .addContainerGap())
         );
 
         pack();
@@ -375,6 +416,12 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_PreferencesActionPerformed
 
+    private void m_NewEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_NewEventActionPerformed
+        //showTimePanel();
+    }//GEN-LAST:event_m_NewEventActionPerformed
+
+
+    
     @Override
     public void dispose() {
         LoadWindow.windowDestroyed();
@@ -382,11 +429,13 @@ public class MainWindow extends javax.swing.JFrame {
         ml.shutdown();
         super.dispose();
     }
+    
     private static DebugWindow dw;
     private static DumpViewer dv;
     private static Preferences p;
     private mainLogic ml;
-    protected DefaultListModel eventListModel = new DefaultListModel();
+    protected DefaultListModel currentEventListModel = new DefaultListModel();
+    protected DefaultListModel pastEventListModel = new DefaultListModel();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem DebugConsole;
     private javax.swing.JMenu DebugMenu;
@@ -403,16 +452,21 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JList jList1;
+    private javax.swing.JList jList2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
-    private javax.swing.JList jl_EventList;
+    private javax.swing.JList jl_CurrentEventList;
+    private javax.swing.JTabbedPane jl_PastEventList;
     private javax.swing.JPanel jp_timePanel;
     private javax.swing.JSpinner js_EventDateTime;
+    private javax.swing.JMenuItem m_NewEvent;
     private javax.swing.JTextArea ta_EventDescription;
     private javax.swing.JTextField tf_EventName;
     // End of variables declaration//GEN-END:variables

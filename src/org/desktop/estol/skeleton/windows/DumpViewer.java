@@ -89,7 +89,9 @@ public class DumpViewer extends javax.swing.JFrame {
         if (rVal == JFileChooser.APPROVE_OPTION)
         {
             File f = fc.getSelectedFile();
-            dumpObject dump = (dumpObject) new ObjectStreamReader(f.getAbsolutePath()).read();
+            if (f.getName().endsWith(".dumpobject")) {
+                dumpObject dump = (dumpObject) new ObjectStreamReader(f.getAbsolutePath()).read();
+            }
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
