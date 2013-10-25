@@ -420,8 +420,6 @@ public class MainWindow extends javax.swing.JFrame {
         //showTimePanel();
     }//GEN-LAST:event_m_NewEventActionPerformed
 
-
-    
     @Override
     public void dispose() {
         LoadWindow.windowDestroyed();
