@@ -82,11 +82,6 @@ public class MainWindow extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMinimumSize(new java.awt.Dimension(30, 30));
         setName("JFrame"); // NOI18N
-        addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                formKeyPressed(evt);
-            }
-        });
 
         jp_timePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Time Panel", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Ubuntu Condensed", 0, 12))); // NOI18N
 
@@ -222,19 +217,9 @@ public class MainWindow extends javax.swing.JFrame {
 
         FileMenu.setText("File");
         FileMenu.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
-        FileMenu.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                FileMenuFocusLost(evt);
-            }
-        });
 
         m_NewEvent.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
         m_NewEvent.setText("New event...");
-        m_NewEvent.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                m_NewEventActionPerformed(evt);
-            }
-        });
         FileMenu.add(m_NewEvent);
 
         SaveMenu.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
@@ -351,10 +336,6 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_DebugConsoleActionPerformed
 
-    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-        
-    }//GEN-LAST:event_formKeyPressed
-
     private void ExitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitButtonActionPerformed
         LoadWindow.Terminate();
     }//GEN-LAST:event_ExitButtonActionPerformed
@@ -401,10 +382,6 @@ public class MainWindow extends javax.swing.JFrame {
         ml.saveDcc();
     }//GEN-LAST:event_SaveMenuActionPerformed
 
-    private void FileMenuFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_FileMenuFocusLost
-        
-    }//GEN-LAST:event_FileMenuFocusLost
-
     private void PreferencesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PreferencesActionPerformed
         if (p != null && p.isVisible()) {
             p.setVisible(false);
@@ -415,10 +392,6 @@ public class MainWindow extends javax.swing.JFrame {
             new LoadWindow(p);
         }
     }//GEN-LAST:event_PreferencesActionPerformed
-
-    private void m_NewEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_NewEventActionPerformed
-        //showTimePanel();
-    }//GEN-LAST:event_m_NewEventActionPerformed
 
     @Override
     public void dispose() {
