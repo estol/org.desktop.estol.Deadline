@@ -1,5 +1,7 @@
 package org.desktop.estol.skeleton.system.windowloader;
 
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
 import org.desktop.estol.skeleton.commons.NotificationIcon;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +22,21 @@ public class LoadWindow
         volatile javax.swing.JFrame window = null;
         static int WindowCount = 0;
 
+        /**
+         * sets the windows position to the position I think is best for it:
+         * the center of the first window.
+         * 
+         * 2013 11 02 2056
+         */
+        private void setWindowPosition()
+        {
+            GraphicsConfiguration gc = window.getGraphicsConfiguration();
+            GraphicsDevice mainScreen = gc.getDevice();
+            GraphicsConfiguration screenConfig = mainScreen.getDefaultConfiguration();
+            window.setLocation((screenConfig.getBounds().x - window.getWidth()) / 2 , (screenConfig.getBounds().y - window.getHeight()) / 2);
+            DebugUtilities.addDebugMessage(screenConfig.getBounds().x +" , " + screenConfig.getBounds().y);
+        }
+        
         public runnableWindow(javax.swing.JFrame window) {
             this.window = window;
         }
@@ -28,6 +45,7 @@ public class LoadWindow
         public void run() {
             WindowCount++;
             Thread.currentThread().setName("Window " + WindowCount);
+            setWindowPosition();
             window.setVisible(true);
         }
 
