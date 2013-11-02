@@ -1,6 +1,6 @@
 package org.desktop.estol.skeleton.debug;
 
-import org.desktop.estol.skeleton.commons.NotificationIcon;
+//import org.desktop.estol.skeleton.commons.NotificationIcon;
 import org.desktop.estol.skeleton.commons.NumericUtilities;
 import org.desktop.estol.skeleton.commons.ThreadedUtility;
 import java.awt.DisplayMode;
@@ -9,7 +9,7 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.MouseInfo;
 import java.awt.Point;
-import java.awt.TrayIcon;
+//import java.awt.TrayIcon;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;
 import java.text.DateFormat;
@@ -556,13 +556,13 @@ public class DebugUtilities
         return myScreenIndex;
     }
 
-    public static int detectVideoMemory(java.awt.Window w) {
+    public static int showVideoMemory(java.awt.Window w) {
         GraphicsConfiguration config = w.getGraphicsConfiguration();
         GraphicsDevice myDevice = config.getDevice();
         return myDevice.getAvailableAcceleratedMemory();
     }
     
-    public static void detectDisplayModes(java.awt.Window w) {
+    public static void showDisplayModes(java.awt.Window w) {
         GraphicsConfiguration config = w.getGraphicsConfiguration();
         GraphicsDevice myDevice = config.getDevice();
         DisplayMode[] displayModes = myDevice.getDisplayModes();
