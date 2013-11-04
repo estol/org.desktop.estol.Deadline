@@ -24,7 +24,7 @@ public class DumpViewer extends javax.swing.JFrame {
      */
     public DumpViewer() {
         initComponents();
-        setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) /2);
+        //setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) /2);
     }
 
     /**

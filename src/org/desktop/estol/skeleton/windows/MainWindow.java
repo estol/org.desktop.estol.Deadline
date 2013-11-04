@@ -21,7 +21,7 @@ public class MainWindow extends javax.swing.JFrame {
     public MainWindow()
     { //throws Exception {
         initComponents();
-        setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) /2);
+        //setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) /2);
         NotificationIcon.initSystrayIcon();
         ml = new mainLogic(currentEventListModel, pastEventListModel);
         //throw new Exception();

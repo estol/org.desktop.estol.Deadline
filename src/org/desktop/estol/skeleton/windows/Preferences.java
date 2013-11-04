@@ -25,7 +25,7 @@ public class Preferences extends javax.swing.JFrame {
      */
     public Preferences() {
         initComponents();
-        setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
+        //setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
         //\u25B8
         detectSoundFiles();
     }

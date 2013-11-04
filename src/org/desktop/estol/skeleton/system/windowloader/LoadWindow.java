@@ -1,5 +1,6 @@
 package org.desktop.estol.skeleton.system.windowloader;
 
+import java.awt.DisplayMode;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import org.desktop.estol.skeleton.commons.NotificationIcon;
@@ -32,9 +33,9 @@ public class LoadWindow
         {
             GraphicsConfiguration gc = window.getGraphicsConfiguration();
             GraphicsDevice mainScreen = gc.getDevice();
-            GraphicsConfiguration screenConfig = mainScreen.getDefaultConfiguration();
-            window.setLocation((screenConfig.getBounds().x - window.getWidth()) / 2 , (screenConfig.getBounds().y - window.getHeight()) / 2);
-            DebugUtilities.addDebugMessage(screenConfig.getBounds().x +" , " + screenConfig.getBounds().y);
+            DisplayMode displayMode = mainScreen.getDisplayMode();
+            window.setLocation((displayMode.getWidth() - window.getWidth()) / 2 , (displayMode.getHeight() - window.getHeight()) / 2);
+            //DebugUtilities.addDebugMessage(displayMode.getWidth() +" , " + displayMode.getHeight());
         }
         
         public runnableWindow(javax.swing.JFrame window) {
