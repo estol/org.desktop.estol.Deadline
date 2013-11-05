@@ -1,9 +1,8 @@
 package org.desktop.estol.skeleton.windows;
 
-import org.desktop.estol.skeleton.applicationlogic.mainLogic;
+import java.awt.event.KeyEvent;
+import org.desktop.estol.skeleton.applicationlogic.MainLogic;
 import org.desktop.estol.skeleton.commons.NotificationIcon;
-import java.awt.Toolkit;
-import java.util.Date;
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -23,7 +22,7 @@ public class MainWindow extends javax.swing.JFrame {
         initComponents();
         //setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) /2);
         NotificationIcon.initSystrayIcon();
-        ml = new mainLogic(currentEventListModel, pastEventListModel);
+        ml = new MainLogic(currentEventListModel, pastEventListModel);
         //throw new Exception();
         //hideTimePanel();
     }
@@ -39,16 +38,6 @@ public class MainWindow extends javax.swing.JFrame {
 
         jScrollPane2 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList();
-        jp_timePanel = new javax.swing.JPanel();
-        js_EventDateTime = new javax.swing.JSpinner();
-        jLabel1 = new javax.swing.JLabel();
-        tf_EventName = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        ta_EventDescription = new javax.swing.JTextArea();
-        jLabel3 = new javax.swing.JLabel();
-        bt_Submit = new javax.swing.JButton();
-        cb_EventRecurring = new javax.swing.JCheckBox();
         jl_PastEventList = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -83,93 +72,17 @@ public class MainWindow extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(30, 30));
         setName("JFrame"); // NOI18N
 
-        jp_timePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Time Panel", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Ubuntu Condensed", 0, 12))); // NOI18N
-
-        js_EventDateTime.setFont(new java.awt.Font("Ubuntu", 0, 11)); // NOI18N
-        js_EventDateTime.setModel(new javax.swing.SpinnerDateModel());
-
-        jLabel1.setFont(new java.awt.Font("Ubuntu", 0, 11)); // NOI18N
-        jLabel1.setText("Date and Time of event");
-
-        tf_EventName.setFont(new java.awt.Font("Ubuntu", 0, 11)); // NOI18N
-
-        jLabel2.setFont(new java.awt.Font("Ubuntu", 0, 11)); // NOI18N
-        jLabel2.setText("Event name");
-
-        ta_EventDescription.setColumns(10);
-        ta_EventDescription.setFont(new java.awt.Font("Ubuntu", 0, 11)); // NOI18N
-        ta_EventDescription.setLineWrap(true);
-        ta_EventDescription.setRows(5);
-        jScrollPane1.setViewportView(ta_EventDescription);
-
-        jLabel3.setFont(new java.awt.Font("Ubuntu", 0, 11)); // NOI18N
-        jLabel3.setText("Event description (optional)");
-
-        bt_Submit.setFont(new java.awt.Font("Ubuntu", 0, 11)); // NOI18N
-        bt_Submit.setText("Submit");
-        bt_Submit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_SubmitActionPerformed(evt);
-            }
-        });
-
-        cb_EventRecurring.setFont(new java.awt.Font("Ubuntu", 0, 11)); // NOI18N
-        cb_EventRecurring.setText("One time event");
-        cb_EventRecurring.setEnabled(false);
-        cb_EventRecurring.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cb_EventRecurringActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jp_timePanelLayout = new javax.swing.GroupLayout(jp_timePanel);
-        jp_timePanel.setLayout(jp_timePanelLayout);
-        jp_timePanelLayout.setHorizontalGroup(
-            jp_timePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jp_timePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jp_timePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(bt_Submit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jp_timePanelLayout.createSequentialGroup()
-                        .addGroup(jp_timePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                            .addComponent(cb_EventRecurring, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
-                        .addGroup(jp_timePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(js_EventDateTime, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tf_EventName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap())
-        );
-        jp_timePanelLayout.setVerticalGroup(
-            jp_timePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jp_timePanelLayout.createSequentialGroup()
-                .addGroup(jp_timePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(js_EventDateTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jp_timePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tf_EventName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jp_timePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jp_timePanelLayout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cb_EventRecurring)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
-                .addComponent(bt_Submit))
-        );
-
         jl_PastEventList.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
         jl_PastEventList.setName(""); // NOI18N
 
         jl_CurrentEventList.setFont(new java.awt.Font("Ubuntu Mono", 0, 14)); // NOI18N
         jl_CurrentEventList.setModel(currentEventListModel);
         jl_CurrentEventList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jl_CurrentEventList.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jl_CurrentEventListKeyPressed(evt);
+            }
+        });
         jScrollPane3.setViewportView(jl_CurrentEventList);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -220,6 +133,11 @@ public class MainWindow extends javax.swing.JFrame {
 
         m_NewEvent.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
         m_NewEvent.setText("New event...");
+        m_NewEvent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_NewEventActionPerformed(evt);
+            }
+        });
         FileMenu.add(m_NewEvent);
 
         SaveMenu.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
@@ -298,9 +216,7 @@ public class MainWindow extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jp_timePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jl_PastEventList, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -308,11 +224,7 @@ public class MainWindow extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jp_timePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jl_PastEventList))
+                .addComponent(jl_PastEventList)
                 .addContainerGap())
         );
 
@@ -340,33 +252,6 @@ public class MainWindow extends javax.swing.JFrame {
         LoadWindow.Terminate();
     }//GEN-LAST:event_ExitButtonActionPerformed
 
-    private void bt_SubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_SubmitActionPerformed
-        // TODO: find a more elegant solution to escape the function than blank return statements. Maybe override the void type?
-        if (new Date().after((Date) js_EventDateTime.getValue()))
-        {
-            JOptionPane.showMessageDialog(rootPane, "The event can't be in the past!", "User error!", JOptionPane.INFORMATION_MESSAGE);
-            return;
-        }
-        if ("".equals(tf_EventName.getText()))
-        {
-            JOptionPane.showMessageDialog(rootPane, "Your event doesn't have a title!", "User error!", JOptionPane.INFORMATION_MESSAGE);
-            return;
-        }
-        ml.addDeadlineCalendarEvent((Date)js_EventDateTime.getValue(), tf_EventName.getText(), ta_EventDescription.getText(), false);
-        ml.saveDcc();
-    }//GEN-LAST:event_bt_SubmitActionPerformed
-
-    private void cb_EventRecurringActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_EventRecurringActionPerformed
-        if (cb_EventRecurring.isSelected())
-        {
-            cb_EventRecurring.setText("Recurring event");
-        }
-        else
-        {
-            cb_EventRecurring.setText("One time event");
-        }
-    }//GEN-LAST:event_cb_EventRecurringActionPerformed
-
     private void DumpViewerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DumpViewerActionPerformed
         if (dv != null && dv.isVisible()) {
             dv.setVisible(false);
@@ -393,6 +278,28 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_PreferencesActionPerformed
 
+    private void m_NewEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_NewEventActionPerformed
+        if (aew != null && aew.isVisible()) {
+            aew.setVisible(false);
+        } else {
+            if (aew == null) {
+                aew = new AddEventWindow(ml);
+            }
+            new LoadWindow(aew);
+        }
+    }//GEN-LAST:event_m_NewEventActionPerformed
+
+    private void jl_CurrentEventListKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jl_CurrentEventListKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_DELETE && !jl_CurrentEventList.isSelectionEmpty())
+        {
+            int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the selected item?", "Confirm delete", JOptionPane.YES_NO_OPTION);
+            if (choice == JOptionPane.YES_OPTION)
+            {
+                ml.deleteEvent(jl_CurrentEventList.getSelectedIndex());
+            }
+        }
+    }//GEN-LAST:event_jl_CurrentEventListKeyPressed
+
     @Override
     public void dispose() {
         LoadWindow.windowDestroyed();
@@ -401,10 +308,11 @@ public class MainWindow extends javax.swing.JFrame {
         super.dispose();
     }
     
-    private static DebugWindow dw;
-    private static DumpViewer dv;
-    private static Preferences p;
-    private mainLogic ml;
+    private static DebugWindow dw = null;
+    private static DumpViewer dv = null;
+    private static Preferences p = null;
+    private static AddEventWindow aew = null;
+    private MainLogic ml;
     protected DefaultListModel currentEventListModel = new DefaultListModel();
     protected DefaultListModel pastEventListModel = new DefaultListModel();
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -417,17 +325,11 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuBar MenuBar;
     private javax.swing.JMenuItem Preferences;
     private javax.swing.JMenuItem SaveMenu;
-    private javax.swing.JButton bt_Submit;
-    private javax.swing.JCheckBox cb_EventRecurring;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JList jList1;
     private javax.swing.JList jList2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -435,10 +337,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JList jl_CurrentEventList;
     private javax.swing.JTabbedPane jl_PastEventList;
-    private javax.swing.JPanel jp_timePanel;
-    private javax.swing.JSpinner js_EventDateTime;
     private javax.swing.JMenuItem m_NewEvent;
-    private javax.swing.JTextArea ta_EventDescription;
-    private javax.swing.JTextField tf_EventName;
     // End of variables declaration//GEN-END:variables
 }

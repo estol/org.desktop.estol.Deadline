@@ -25,14 +25,14 @@ public class Heartbeat implements ThreadedUtility, Runnable
 
     private boolean runFlag = false;
     private boolean updateFlag = true;
-    private mainLogic ml;
+    private MainLogic ml;
     
     /**
      * This thread makes sure the lists on the GUI are refreshed, so we need
      * a reference of the mainLogic object.
      * @param ml 
      */
-    public Heartbeat(mainLogic ml)
+    public Heartbeat(MainLogic ml)
     {
         this.ml = ml;
     }
@@ -83,18 +83,11 @@ public class Heartbeat implements ThreadedUtility, Runnable
     {
         Thread.currentThread().setName("Heartbeat");
         runFlag = true;
-        DeadlineCalendarContainer dcc = ml.getDcc();
-        ArrayList<DeadlineCalendar> eventList = dcc.getEvents();
         while (runFlag)
         {
             try {
-                if (updateFlag)
-                {
-                    dcc = ml.getDcc();
-                    eventList = dcc.getEvents();
-                }
                 //DebugUtilities.addDebugMessage("Heartbeat thread running!");
-                Iterator<DeadlineCalendar> iterator = eventList.iterator();
+                Iterator<DeadlineCalendar> iterator = ml.eventList.iterator();
                 while(iterator.hasNext())
                 {
                     DeadlineCalendar dc = iterator.next();

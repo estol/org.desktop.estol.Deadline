@@ -10,7 +10,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import org.desktop.estol.skeleton.applicationlogic.Settings;
 import org.desktop.estol.skeleton.applicationlogic.WavePlayer;
-import org.desktop.estol.skeleton.applicationlogic.mainLogic;
+import org.desktop.estol.skeleton.applicationlogic.MainLogic;
 import org.desktop.estol.skeleton.debug.DebugUtilities;
 import org.desktop.estol.skeleton.system.windowloader.LoadWindow;
 
@@ -191,9 +191,9 @@ public class Preferences extends javax.swing.JFrame {
     }//GEN-LAST:event_bt_DiscardChangesActionPerformed
 
     private void bt_SavePreferencesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_SavePreferencesActionPerformed
-        settings.addDccPath(dccPath);
-        settings.addNotificationSoundPath(soundPath);
-        mainLogic.saveSettings(settings);
+        //settings.addDccPath(dccPath);
+        //settings.addNotificationSoundPath(soundPath);
+        //MainLogic.saveSettings(settings);
         /*
         JFrame mainWindow = LoadWindow.getWindow("Main Window");
         if (!mainWindow.isEnabled())

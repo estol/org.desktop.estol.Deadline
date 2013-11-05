@@ -1,5 +1,10 @@
 package org.desktop.estol.skeleton.core;
 
+/*
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.KeyEvent;*/
+import org.desktop.estol.skeleton.magic.GoldenTicket;
 import org.desktop.estol.skeleton.system.windowloader.LoadWindow;
 import org.desktop.estol.skeleton.windows.MainWindow;
 
@@ -15,6 +20,16 @@ public class Core {
      */
     public static void main(String[] args) {
         //Thread.setDefaultUncaughtExceptionHandler(new GlobalExceptionHandler()); // see GlobalExceptionHandler.java
+        /*
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher()
+        {
+            @Override
+            public boolean dispatchKeyEvent(KeyEvent e)
+            {
+                
+            }
+        });*/
+        //GoldenTicket.init();
         new LoadWindow(new MainWindow());
     }
 }

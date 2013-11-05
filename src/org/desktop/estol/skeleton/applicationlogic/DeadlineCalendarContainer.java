@@ -52,4 +52,9 @@ public class DeadlineCalendarContainer implements Serializable
     {
         return eventList;
     }
+    
+    public void setEvents(ArrayList<DeadlineCalendar> dcc)
+    {
+        eventList = dcc;
+    }
 }

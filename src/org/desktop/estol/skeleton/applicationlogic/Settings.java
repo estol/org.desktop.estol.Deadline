@@ -1,6 +1,7 @@
 package org.desktop.estol.skeleton.applicationlogic;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 /**
  *
@@ -9,37 +10,16 @@ import java.io.Serializable;
 public class Settings implements Serializable
  {
      private static final long serialVersionUID = 2829210570L;
+     
+     private HashMap settings = new HashMap();
 
-     private String dccPath;
-     private String notificationSoundPath;
-
-     public void addDccPath(String path)
+     public void addSetting(String name, String value)
      {
-         dccPath = path;
-     }
-
-     public void removeDccPath()
-     {
-         dccPath = "";
-     }
-
-     public String getDccPath()
-     {
-         return dccPath;
+         settings.put(name, value);
      }
      
-     public void addNotificationSoundPath(String path)
+     public String getSetting(String name)
      {
-         notificationSoundPath = path;
-     }
-     
-     public void removeNotificationSoundPath()
-     {
-         notificationSoundPath = "";
-     }
-     
-     public String getNotificationSoundPath()
-     {
-         return notificationSoundPath;
+         return (String) settings.get(name);
      }
  }

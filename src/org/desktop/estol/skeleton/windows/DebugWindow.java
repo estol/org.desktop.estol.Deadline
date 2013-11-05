@@ -5,7 +5,6 @@ package org.desktop.estol.skeleton.windows;
  * @author estol
  */
 import org.desktop.estol.skeleton.commons.SelectionListener;
-import java.awt.Toolkit;
 import org.desktop.estol.skeleton.debug.DebugUtilities;
 import org.desktop.estol.skeleton.system.windowloader.LoadWindow;
 

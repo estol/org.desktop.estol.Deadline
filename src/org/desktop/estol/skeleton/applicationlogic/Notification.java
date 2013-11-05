@@ -36,7 +36,7 @@ public class Notification
         return notificationDescription;
     }
     
-    public void Notify(mainLogic ml)
+    public void Notify(MainLogic ml)
     {
         trayNotification();
         audioNotification(ml);
@@ -47,7 +47,7 @@ public class Notification
         NotificationIcon.displayMessage(getNotificationName(), getNotificationDescription(), TrayIcon.MessageType.INFO);
     }
     
-    private void audioNotification(mainLogic ml)
+    private void audioNotification(MainLogic ml)
     {
         // TODO get this from the settings
         wavePlayer.playSound(ml.getNotificationSoundPath());
