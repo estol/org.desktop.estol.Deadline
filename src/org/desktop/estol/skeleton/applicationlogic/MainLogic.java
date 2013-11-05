@@ -14,18 +14,20 @@ import org.desktop.estol.skeleton.commons.ObjectStreamWriter;
  * @author estol
  */
 
-public class mainLogic
+public class MainLogic
 {    
     private Settings settings;
     private boolean existsFlag = false;
     private static DeadlineCalendarContainer dcc;
-    private String dccPath = "dcc.bin";
+    private static final String defaultDccPath = "dcc.bin";
+    private String currentDccPath = null;
     private String notificationSoundPath = "Sounds" + System.getProperty("file.separator") + "ping2.wav";
     private DefaultListModel clm;
     private DefaultListModel plm;
     private Heartbeat hb;
+    protected static ArrayList<DeadlineCalendar> eventList;
     
-    public mainLogic(DefaultListModel clm, DefaultListModel plm)
+    public MainLogic(DefaultListModel clm, DefaultListModel plm)
     {
         initialize();
         this.clm = clm;
@@ -34,6 +36,19 @@ public class mainLogic
         {
             loadDcc();
             filCurrentlEventList();
+        }
+    }
+    
+    public void deleteEvent(int index)
+    {
+        if (eventList.size() != 0)
+        {
+            eventList.remove(index);
+            hb.triggerUpdate();
+        }
+        else
+        {
+            clm.clear();
         }
     }
     
@@ -59,9 +74,10 @@ public class mainLogic
         {
             existsFlag = true;
             settings = (Settings) new ObjectStreamReader("settings.bin").read();
-            if (new File(settings.getDccPath()).exists())
+            currentDccPath = settings.getSetting("dccPath");
+            if (new File(currentDccPath).exists())
             {
-                dcc = (DeadlineCalendarContainer) new ObjectStreamReader(settings.getDccPath()).read();
+                dcc = (DeadlineCalendarContainer) new ObjectStreamReader(currentDccPath).read();
             }
             else
             {
@@ -72,8 +88,9 @@ public class mainLogic
         else
         {
             settings = new Settings();
-            settings.addNotificationSoundPath(notificationSoundPath);
-            settings.addDccPath(dccPath);
+            settings.addSetting("notificationSoundPath", notificationSoundPath);
+            settings.addSetting("dccPath", defaultDccPath);
+            currentDccPath = defaultDccPath;
             dcc = new DeadlineCalendarContainer();
             saveSettings();
             saveDcc();
@@ -88,7 +105,8 @@ public class mainLogic
     public void addDeadlineCalendarEvent(Date d, String notificationName, String notificationDescription, boolean recurring)
     {
         DeadlineCalendar dcEvent = new DeadlineCalendar(d, notificationName, notificationDescription, recurring);
-        dcc.addEvent(dcEvent);
+        eventList.add(dcEvent);
+        dcc.setEvents(eventList);
         saveDcc();
         filCurrentlEventList();
         hb.triggerUpdate();
@@ -116,12 +134,15 @@ public class mainLogic
     
     public void saveDcc()
     {
-        new Thread(new ObjectStreamWriter(dcc, settings.getDccPath())).start();
+        dcc.setEvents(eventList);
+        // (currentDccPath == null) ? settings.getSetting("dccPath") : defaultDccPath TERNARY AS PARAMETER?!?!?!?!?!?! GAMECHANGER!
+        new Thread(new ObjectStreamWriter(dcc, currentDccPath)).start();
     }
     
     private void loadDcc()
     {
-        dcc = (DeadlineCalendarContainer) new ObjectStreamReader(settings.getDccPath()).read();
+        dcc = (DeadlineCalendarContainer) new ObjectStreamReader(currentDccPath).read();
+        eventList = (dcc.getEvents() == null) ? new ArrayList() : dcc.getEvents();
     }
     
     protected void fillPastEventList(DeadlineCalendar dc)
@@ -129,19 +150,22 @@ public class mainLogic
         plm.addElement(dc.generateListFriendlyName());
     }
     
-    protected void filCurrentlEventList()
+    protected final void filCurrentlEventList()
     {
-        clm.clear();
-        ArrayList<DeadlineCalendar> eventList = dcc.getEvents();
-        Iterator<DeadlineCalendar> iterator = eventList.iterator();
-        while(iterator.hasNext())
+        if (eventList.size() > 0)
         {
-            clm.addElement(iterator.next().generateListFriendlyName());
+            clm.clear();
+            Iterator<DeadlineCalendar> iterator = eventList.iterator();
+            while(iterator.hasNext())
+            {
+                clm.addElement(iterator.next().generateListFriendlyName());
+            }
+            if (hb != null && !hb.isRunning())
+            {
+                startHeartbeat();
+            }
         }
-        if (hb != null && !hb.isRunning())
-        {
-            startHeartbeat();
-        }
+            
     }
 
     protected String getNotificationSoundPath()
