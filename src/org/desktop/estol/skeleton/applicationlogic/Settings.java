@@ -8,7 +8,7 @@ import java.io.Serializable;
  */
 public class Settings implements Serializable
  {
-     private static final long serialVersionUID = 2829210970L;
+     private static final long serialVersionUID = 2829210570L;
 
      private String dccPath;
      private String notificationSoundPath;
