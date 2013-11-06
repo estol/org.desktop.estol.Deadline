@@ -22,4 +22,9 @@ public class Settings implements Serializable
      {
          return (String) settings.get(name);
      }
+     
+     public boolean isSettingSet(String name)
+     {
+         return settings.containsKey(name);
+     }
  }

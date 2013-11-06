@@ -24,6 +24,7 @@ public class Heartbeat implements ThreadedUtility, Runnable
 {
 
     private boolean runFlag = false;
+    @Deprecated
     private boolean updateFlag = true;
     private MainLogic ml;
     
@@ -70,6 +71,7 @@ public class Heartbeat implements ThreadedUtility, Runnable
      * Called from outside the Heartbeat object, to indicate if the initial 
      * parameters should be refreshed.
      */
+    @Deprecated
     public void triggerUpdate()
     {
         updateFlag = true;

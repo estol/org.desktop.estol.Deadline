@@ -21,7 +21,8 @@ public class MainLogic
     private static DeadlineCalendarContainer dcc;
     private static final String defaultDccPath = "dcc.bin";
     private String currentDccPath = null;
-    private String notificationSoundPath = "Sounds" + System.getProperty("file.separator") + "ping2.wav";
+    private String defaultNotificationSoundPath = "Sounds" + System.getProperty("file.separator") + "ping2.wav";
+    private String currentNotificationSoundPath = null;
     private DefaultListModel clm;
     private DefaultListModel plm;
     private Heartbeat hb;
@@ -44,7 +45,7 @@ public class MainLogic
         if (eventList.size() != 0)
         {
             eventList.remove(index);
-            hb.triggerUpdate();
+            //hb.triggerUpdate();
         }
         else
         {
@@ -58,7 +59,7 @@ public class MainLogic
         {
             hb.shutdown();
         }
-        saveSettings();
+        //saveSettings();
         saveDcc();
     }
     
@@ -75,6 +76,7 @@ public class MainLogic
             existsFlag = true;
             settings = (Settings) new ObjectStreamReader("settings.bin").read();
             currentDccPath = settings.getSetting("dccPath");
+            currentNotificationSoundPath = settings.getSetting("notificationSoundPath");
             if (new File(currentDccPath).exists())
             {
                 dcc = (DeadlineCalendarContainer) new ObjectStreamReader(currentDccPath).read();
@@ -88,7 +90,7 @@ public class MainLogic
         else
         {
             settings = new Settings();
-            settings.addSetting("notificationSoundPath", notificationSoundPath);
+            settings.addSetting("notificationSoundPath", defaultNotificationSoundPath);
             settings.addSetting("dccPath", defaultDccPath);
             currentDccPath = defaultDccPath;
             dcc = new DeadlineCalendarContainer();
@@ -109,7 +111,7 @@ public class MainLogic
         dcc.setEvents(eventList);
         saveDcc();
         filCurrentlEventList();
-        hb.triggerUpdate();
+        //hb.triggerUpdate();
     }
     
     public DeadlineCalendarContainer getDcc()
@@ -127,8 +129,13 @@ public class MainLogic
         new Thread(new ObjectStreamWriter(settings, "settings.bin")).start();
     }
     
-    public static void saveSettings(Settings s)
+    public void saveSettings(Settings s)
     {
+        if (!s.isSettingSet("dccPath"))
+        {
+            s.addSetting("dccPath", defaultDccPath);
+        }
+        currentNotificationSoundPath = s.getSetting("notificationSoundPath");
         new Thread(new ObjectStreamWriter(s, "settings.bin")).start();
     }
     
@@ -165,12 +172,17 @@ public class MainLogic
                 startHeartbeat();
             }
         }
+        else
+        {
+            clm.clear();
+            hb.shutdown();
+        }
             
     }
 
     protected String getNotificationSoundPath()
     {
-        return notificationSoundPath;
+        return currentNotificationSoundPath;
     }
     
 }

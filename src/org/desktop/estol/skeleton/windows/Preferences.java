@@ -4,10 +4,8 @@
  */
 package org.desktop.estol.skeleton.windows;
 
-import java.awt.Toolkit;
 import java.io.File;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import org.desktop.estol.skeleton.applicationlogic.Settings;
 import org.desktop.estol.skeleton.applicationlogic.WavePlayer;
 import org.desktop.estol.skeleton.applicationlogic.MainLogic;
@@ -23,11 +21,12 @@ public class Preferences extends javax.swing.JFrame {
     /**
      * Creates new form Preferences
      */
-    public Preferences() {
+    public Preferences(MainLogic ml) {
         initComponents();
         //setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
         //\u25B8
         detectSoundFiles();
+        this.ml = ml;
     }
 
     /**
@@ -60,6 +59,7 @@ public class Preferences extends javax.swing.JFrame {
 
         tf_CalendarFilePath.setEditable(false);
         tf_CalendarFilePath.setFont(new java.awt.Font("Ubuntu Mono", 0, 12)); // NOI18N
+        tf_CalendarFilePath.setEnabled(false);
         tf_CalendarFilePath.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tf_CalendarFilePathActionPerformed(evt);
@@ -71,6 +71,7 @@ public class Preferences extends javax.swing.JFrame {
 
         bt_CalendarFileFolder.setFont(new java.awt.Font("Ubuntu Condensed", 0, 12)); // NOI18N
         bt_CalendarFileFolder.setText("Browse");
+        bt_CalendarFileFolder.setEnabled(false);
         bt_CalendarFileFolder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_CalendarFileFolderActionPerformed(evt);
@@ -191,16 +192,10 @@ public class Preferences extends javax.swing.JFrame {
     }//GEN-LAST:event_bt_DiscardChangesActionPerformed
 
     private void bt_SavePreferencesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_SavePreferencesActionPerformed
-        //settings.addDccPath(dccPath);
-        //settings.addNotificationSoundPath(soundPath);
-        //MainLogic.saveSettings(settings);
-        /*
-        JFrame mainWindow = LoadWindow.getWindow("Main Window");
-        if (!mainWindow.isEnabled())
-        {
-            mainWindow.setEnabled(true);
-        }
-        */
+        settings.addSetting("notificationSoundPath", soundPath);
+        //settings.addSetting("dccPath", dccPath);
+        ml.saveSettings(settings);
+        dispose();
     }//GEN-LAST:event_bt_SavePreferencesActionPerformed
 
     /**
@@ -233,7 +228,7 @@ public class Preferences extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Preferences().setVisible(true);
+                new Preferences(null).setVisible(true);
             }
         });
     }
@@ -262,6 +257,7 @@ public class Preferences extends javax.swing.JFrame {
     private Settings settings = new Settings();
     private String dccPath;
     private String soundPath;
+    private MainLogic ml;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_CalendarFileFolder;
     private javax.swing.JButton bt_DiscardChanges;
