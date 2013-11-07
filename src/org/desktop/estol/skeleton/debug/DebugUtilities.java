@@ -157,7 +157,7 @@ public class DebugUtilities
 
         @Override
         public void run() {
-            Thread.currentThread().setName("DEBUG Memory thread");
+            Thread.currentThread().setName("Memory watch thread");
             while (runFlag) {
                 try {
                     Thread.sleep(interval);
@@ -219,7 +219,7 @@ public class DebugUtilities
 
         @Override
         public void run() {
-            Thread.currentThread().setName("DEBUG Thread monitor");
+            Thread.currentThread().setName("Thread monitor thread");
             while (runFlag) {
                 try {
                     Thread.sleep(interval);
@@ -300,7 +300,7 @@ public class DebugUtilities
 
         @Override
         public void run() {
-            Thread.currentThread().setName("Debug thread");
+            Thread.currentThread().setName("DebugConsole thread");
             Running = true;
             while (runFlag) {
                 if (isPaneSet()) {
@@ -372,6 +372,7 @@ public class DebugUtilities
         @Override
         public void run() {
             Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+            Thread.currentThread().setName("Pointer location watcher");
             runFlag = !runFlag;
             while(runFlag)
             {

@@ -69,7 +69,7 @@ public class ObjectStreamWriter implements ThreadedUtility, Runnable
 
     @Override
     public void run() {
-        Thread.currentThread().setName("Object writer thread");
+        Thread.currentThread().setName("Object writer for " + path);
         runFlag = true;
         try {
             FileOutputStream fout = new FileOutputStream(path);

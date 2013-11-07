@@ -67,7 +67,7 @@ public class SelectionListener implements Runnable, ThreadedUtility
         {
             if (enabled)
             {
-                Thread.currentThread().setName("Selection Listener - " + c);
+                Thread.currentThread().setName("Selection Listener");
                 try
                 {
                     Thread.sleep(interval);

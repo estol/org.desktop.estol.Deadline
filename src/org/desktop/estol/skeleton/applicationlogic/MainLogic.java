@@ -16,12 +16,14 @@ import org.desktop.estol.skeleton.commons.ObjectStreamWriter;
 
 public class MainLogic
 {    
+    
+    private static final String defaultNotificationSoundPath = "Sounds" + System.getProperty("file.separator") + "ping2.wav";
+    private static final String defaultDccPath = "dcc.bin";
+    
     private Settings settings;
     private boolean existsFlag = false;
     private static DeadlineCalendarContainer dcc;
-    private static final String defaultDccPath = "dcc.bin";
     private String currentDccPath = null;
-    private String defaultNotificationSoundPath = "Sounds" + System.getProperty("file.separator") + "ping2.wav";
     private String currentNotificationSoundPath = null;
     private DefaultListModel clm;
     private DefaultListModel plm;

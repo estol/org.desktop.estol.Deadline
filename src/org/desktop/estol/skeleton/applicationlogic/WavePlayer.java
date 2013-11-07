@@ -7,6 +7,7 @@ import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
+import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -22,7 +23,9 @@ public class WavePlayer implements Runnable
     private AudioInputStream audioStream;
     private AudioFormat audioFormat;
     private SourceDataLine sourceLine;
+    private FloatControl gainControl;
     private String file;
+    private boolean looped = false;
     
     private void startPlayback()
     {        
@@ -35,6 +38,7 @@ public class WavePlayer implements Runnable
             sourceLine = (SourceDataLine) AudioSystem.getLine(info);
             sourceLine.open(audioFormat);
             sourceLine.start();
+            gainControl = (FloatControl) sourceLine.getControl(FloatControl.Type.MASTER_GAIN);
             
             int nBytesRead = 0;
             byte[] abData = new byte[BUFFER_SIZE];
@@ -48,6 +52,10 @@ public class WavePlayer implements Runnable
             }
             sourceLine.drain();
             sourceLine.close();
+            if (looped)
+            {
+                startPlayback();
+            }
         }
         catch (NullPointerException | UnsupportedAudioFileException | IOException | LineUnavailableException e)
         {
@@ -56,6 +64,43 @@ public class WavePlayer implements Runnable
         }
     }
 
+    
+    
+    /**
+     * 6.0206 max
+     * -80.0 min
+     * @param gain 
+     */
+    public void setVolume(double gain)
+    {
+        // linear scalar value of gain is 10^gain/20.0
+        // measured in dB
+        gainControl.setValue((float)(Math.pow(10.0, gain/20.0))); // also has a getter
+    }
+    
+    public float getVolume()
+    {
+        return gainControl.getValue();
+    }
+    
+    public void stopPlayback()
+    {
+        disableLooping();
+        sourceLine.stop();
+        sourceLine.flush();
+        sourceLine.close();
+    }
+    
+    public void setLooping()
+    {
+        looped = true;
+    }
+    
+    public void disableLooping()
+    {
+        looped = false;
+    }
+    
     public void playSound(String filename)
     {
         file = filename;
@@ -64,6 +109,7 @@ public class WavePlayer implements Runnable
     
     @Override
     public void run() {
+        Thread.currentThread().setName("Wave player for " + file);
         startPlayback();
     }
 }

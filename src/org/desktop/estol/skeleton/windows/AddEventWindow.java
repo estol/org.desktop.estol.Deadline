@@ -7,6 +7,8 @@ package org.desktop.estol.skeleton.windows;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import org.desktop.estol.skeleton.applicationlogic.MainLogic;
+import org.desktop.estol.skeleton.magic.gameWindows.GameWindow;
+import org.desktop.estol.skeleton.magic.GoldenTicket;
 import org.desktop.estol.skeleton.system.windowloader.LoadWindow;
 
 /**
@@ -161,6 +163,18 @@ public class AddEventWindow extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Your event doesn't have a title!", "User error!", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        
+        if ("magic".equals(tf_EventName.getText()))
+        {
+            int choice = JOptionPane.showConfirmDialog(rootPane, GoldenTicket.introMessage, "MAGIC!", JOptionPane.YES_NO_OPTION);
+            if (choice == JOptionPane.YES_OPTION)
+            {
+                new LoadWindow(new GameWindow());
+                dispose();
+                return;
+            }
+        }
+        
         ml.addDeadlineCalendarEvent((Date)js_EventDateTime.getValue(), tf_EventName.getText(), ta_EventDescription.getText(), false);
         ml.saveDcc();
         tf_EventName.setText(null);
