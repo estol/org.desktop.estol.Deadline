@@ -1,7 +1,6 @@
 package org.desktop.estol.skeleton.windows;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 import org.desktop.estol.skeleton.applicationlogic.MainLogic;
@@ -9,7 +8,6 @@ import org.desktop.estol.skeleton.commons.NotificationIcon;
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import javax.swing.KeyStroke;
 import org.desktop.estol.skeleton.debug.DebugUtilities;
 import org.desktop.estol.skeleton.magic.gameWindows.GameWindow;
 import org.desktop.estol.skeleton.system.windowloader.LoadWindow;
@@ -19,16 +17,6 @@ import org.desktop.estol.skeleton.system.windowloader.LoadWindow;
  * @author estol
  */
 public class MainWindow extends javax.swing.JFrame {
-    
-    private static class gameStartAction extends AbstractAction
-    {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            DebugUtilities.addDebugMessage("gamestart event occured!");
-        }
-    
-    }
     
     /**
      * Creates new form MainWindow

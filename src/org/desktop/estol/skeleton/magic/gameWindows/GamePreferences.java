@@ -9,6 +9,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import org.desktop.estol.skeleton.applicationlogic.WavePlayer;
 import org.desktop.estol.skeleton.commons.NumericUtilities;
+import org.desktop.estol.skeleton.debug.DebugUtilities;
+import org.desktop.estol.skeleton.magic.GoldenTicket;
 import org.desktop.estol.skeleton.system.windowloader.LoadWindow;
 
 /**
@@ -52,7 +54,7 @@ public class GamePreferences extends javax.swing.JFrame {
         public void stateChanged(ChangeEvent e)
         {
             JSlider volumeSlider = (JSlider)e.getSource();
-            wp.setVolume((double)(volumeSlider.getValue() / 100));
+            wp.setVolume((float)(volumeSlider.getValue()));
             gp.displayGain();
         }
            
@@ -76,18 +78,30 @@ public class GamePreferences extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("You found the hidden game's preferences!");
 
+        js_VolumeSlider.setMaximum(6);
+        js_VolumeSlider.setMinimum(-80);
         js_VolumeSlider.setPaintTicks(true);
-        js_VolumeSlider.setValue(50);
+        js_VolumeSlider.setValue(0);
 
         jLabel1.setText("Current gain:");
 
         cb_ToggleMusic.setSelected(true);
         cb_ToggleMusic.setText("Untick to disable music");
+        cb_ToggleMusic.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb_ToggleMusicActionPerformed(evt);
+            }
+        });
 
         lab_gain.setText("Not Available");
 
         cb_ToggleAllSound.setSelected(true);
         cb_ToggleAllSound.setText("Untick to disable all sounds");
+        cb_ToggleAllSound.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb_ToggleAllSoundActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -126,6 +140,42 @@ public class GamePreferences extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cb_ToggleMusicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_ToggleMusicActionPerformed
+        if (GoldenTicket.globalSoundsToggle)
+        {
+            if (cb_ToggleMusic.isSelected())
+            {
+                cb_ToggleMusic.setText("Untick to disable music");
+                wp.playSound(GoldenTicket.gameThemeMusic);
+                DebugUtilities.addDebugMessage(js_VolumeSlider.getValue() + "");
+                displayGain();
+                js_VolumeSlider.setValue(0);
+            }
+            else
+            {
+                cb_ToggleMusic.setText("Tick to disable music");
+                wp.stopPlayback();
+            }
+        }
+    }//GEN-LAST:event_cb_ToggleMusicActionPerformed
+
+    private void cb_ToggleAllSoundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_ToggleAllSoundActionPerformed
+        if (cb_ToggleAllSound.isSelected())
+        {
+            cb_ToggleAllSound.setText("Untick to disable all sounds");
+            GoldenTicket.globalSoundsToggle = true;
+            cb_ToggleMusic.setEnabled(true);
+            wp.playSound(GoldenTicket.gameThemeMusic);
+        }
+        else
+        {
+            cb_ToggleAllSound.setText("Tick to enable all sounds");
+            GoldenTicket.globalSoundsToggle = false;
+            cb_ToggleMusic.setEnabled(false);
+            wp.stopPlayback();
+        }
+    }//GEN-LAST:event_cb_ToggleAllSoundActionPerformed
 
     /**
      * @param args the command line arguments

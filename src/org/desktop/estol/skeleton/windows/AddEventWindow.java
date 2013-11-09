@@ -166,7 +166,7 @@ public class AddEventWindow extends javax.swing.JFrame {
         
         if ("magic".equals(tf_EventName.getText()))
         {
-            int choice = JOptionPane.showConfirmDialog(rootPane, GoldenTicket.introMessage, "MAGIC!", JOptionPane.YES_NO_OPTION);
+            int choice = JOptionPane.showConfirmDialog(rootPane, GoldenTicket.stumbleUponMessage, "MAGIC!", JOptionPane.YES_NO_OPTION);
             if (choice == JOptionPane.YES_OPTION)
             {
                 new LoadWindow(new GameWindow());

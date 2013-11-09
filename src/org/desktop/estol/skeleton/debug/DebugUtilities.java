@@ -275,10 +275,10 @@ public class DebugUtilities
 
         @Override
         public final synchronized void display() {
-            Iterator it = messages.entrySet().iterator();
+            Iterator iterator = messages.entrySet().iterator();
             boolean color = false;
-            while (it.hasNext()) {
-                Map.Entry pairs = (Map.Entry)it.next();
+            while (iterator.hasNext()) {
+                Map.Entry pairs = (Map.Entry)iterator.next();
                 StringBuilder sb = new StringBuilder();
                 if (!"".equals(pane.getText())) {
                     sb.append(pane.getText());
@@ -288,7 +288,7 @@ public class DebugUtilities
                 sb.append(pairs.getValue());
                 sb.append("\n");
                 pane.setText(sb.toString());
-                it.remove();
+                iterator.remove();
                 color = !color;
             }
         }

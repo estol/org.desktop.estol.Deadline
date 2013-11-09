@@ -71,11 +71,11 @@ public class WavePlayer implements Runnable
      * -80.0 min
      * @param gain 
      */
-    public void setVolume(double gain)
+    public void setVolume(float gain)
     {
         // linear scalar value of gain is 10^gain/20.0
         // measured in dB
-        gainControl.setValue((float)(Math.pow(10.0, gain/20.0))); // also has a getter
+        gainControl.setValue(gain); // also has a getter
     }
     
     public float getVolume()
