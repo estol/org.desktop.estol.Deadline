@@ -13,7 +13,9 @@ import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import org.desktop.estol.skeleton.debug.DebugUtilities;
 /**
- *
+ * Opens and plays audio files on their own thread.
+ * Can loop them, can modify the gain.
+ * 
  * @author estol
  */
 public class WavePlayer implements Runnable
@@ -27,8 +29,14 @@ public class WavePlayer implements Runnable
     private String file;
     private boolean looped = false;
     
+    
+    /**
+     * after initialization, plays the file defined in soundFile
+     */
     private void startPlayback()
     {        
+        // I know this is bad practice, but I won't make thousands of indents
+        // to catch all exceptions near their individual occurence
         try
         {
             soundFile = new File(file);
@@ -41,8 +49,8 @@ public class WavePlayer implements Runnable
             gainControl = (FloatControl) sourceLine.getControl(FloatControl.Type.MASTER_GAIN);
             
             int nBytesRead = 0;
-            byte[] abData = new byte[BUFFER_SIZE];
-            while (nBytesRead != -1)
+            byte[] abData = new byte[BUFFER_SIZE]; // in a nutshell: read the buffer full, write the buffer to the audio output
+            while (nBytesRead != -1)               // repeat while there is more file to read.
             {
                 nBytesRead = audioStream.read(abData, 0, abData.length);
                 if (nBytesRead >= 0)
@@ -67,22 +75,29 @@ public class WavePlayer implements Runnable
     
     
     /**
+     * Sets the gain, globally throughout of all WavePlayer instances.
      * 6.0206 max
      * -80.0 min
      * @param gain 
      */
     public void setVolume(float gain)
     {
-        // linear scalar value of gain is 10^gain/20.0
-        // measured in dB
-        gainControl.setValue(gain); // also has a getter
+        gainControl.setValue(gain);
     }
     
+    /**
+     * Not actual volume, but gain.
+     * Retruns the current gain.
+     * @return 
+     */
     public float getVolume()
     {
         return gainControl.getValue();
     }
     
+    /**
+     * stops the playback duh
+     */
     public void stopPlayback()
     {
         disableLooping();
@@ -91,22 +106,38 @@ public class WavePlayer implements Runnable
         sourceLine.close();
     }
     
+    /**
+     * when called, sets the looped flag true, causing the startPlayback() method
+     * to recursively call itself, until disableLooping is called.
+     */
     public void setLooping()
     {
         looped = true;
     }
     
+    /**
+     * when called sets the looped flag false, causing the startPlayback method
+     * to return when the playback is finished.
+     */
     public void disableLooping()
     {
         looped = false;
     }
     
+    /**
+     * sets up the WavePlayer instance's file field with the parameter filename
+     * and spawns a new thread.
+     * @param filename 
+     */
     public void playSound(String filename)
     {
         file = filename;
         new Thread(this).start();
     }
     
+    /**
+     * renames the thread, and starts the playback.
+     */
     @Override
     public void run() {
         Thread.currentThread().setName("Wave player for " + file);

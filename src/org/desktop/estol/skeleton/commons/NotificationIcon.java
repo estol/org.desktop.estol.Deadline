@@ -5,7 +5,15 @@ import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.TrayIcon.MessageType;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.desktop.estol.skeleton.applicationlogic.MainLogic;
 import org.desktop.estol.skeleton.debug.DebugUtilities;
+import org.desktop.estol.skeleton.system.exceptions.InternalErrorException;
+import org.desktop.estol.skeleton.system.windowloader.LoadWindow;
+import org.desktop.estol.skeleton.windows.AddEventWindow;
 
 /**
  * A little explanation on the enum type here: we need to GUARANTEE that at any
@@ -24,6 +32,8 @@ public enum NotificationIcon
     
     private static boolean started = false;
     
+    private static AddEventWindow aew;
+    
     public static void initSystrayIcon()
     {
         try
@@ -37,9 +47,42 @@ public enum NotificationIcon
             icon.setImageAutoSize(true);
             icon.setToolTip("org.desktop.estol.sekleton");
             
-            MenuItem recordItem = new MenuItem("Test menu item");
+            MenuItem exitItem = new MenuItem();
+            exitItem.setLabel("Exit");
+            exitItem.addActionListener(new ActionListener()
+            {
+                @Override
+                public void actionPerformed(ActionEvent e)
+                {
+                    LoadWindow.Terminate();
+                }
+            });
             
-            systrayIconMenu.add(recordItem);
+            MenuItem addEventItem = new MenuItem();
+            addEventItem.setLabel("Create a new event");
+            addEventItem.addActionListener(new ActionListener()
+            {
+                @Override
+                public void actionPerformed(ActionEvent e)
+                {
+                    if (aew != null && aew.isVisible()) {
+                        aew.setVisible(false);
+                    } else {
+                        if (aew == null) {
+                            try {
+                                aew = new AddEventWindow(MainLogic.getInstance());
+                            } catch (InternalErrorException ex) {
+                                DebugUtilities.addDebugMessage(ex.getMessage());
+                            }
+                        }
+                        new LoadWindow(aew);
+                    }
+                }
+            });
+            
+            systrayIconMenu.add(addEventItem);
+            systrayIconMenu.addSeparator();
+            systrayIconMenu.add(exitItem);
             
             icon.setPopupMenu(systrayIconMenu);
             tray.add(icon);

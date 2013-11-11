@@ -7,8 +7,8 @@ package org.desktop.estol.skeleton.windows;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import org.desktop.estol.skeleton.applicationlogic.MainLogic;
-import org.desktop.estol.skeleton.magic.gameWindows.GameWindow;
-import org.desktop.estol.skeleton.magic.GoldenTicket;
+//import org.desktop.estol.skeleton.magic.gameWindows.GameWindow;
+//import org.desktop.estol.skeleton.magic.GoldenTicket;
 import org.desktop.estol.skeleton.system.windowloader.LoadWindow;
 
 /**
@@ -23,7 +23,7 @@ public class AddEventWindow extends javax.swing.JFrame {
     public AddEventWindow(MainLogic ml) {
         initComponents();
         this.ml = ml;
-    }
+        }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -164,6 +164,7 @@ public class AddEventWindow extends javax.swing.JFrame {
             return;
         }
         
+        /*
         if ("magic".equals(tf_EventName.getText()))
         {
             int choice = JOptionPane.showConfirmDialog(rootPane, GoldenTicket.stumbleUponMessage, "MAGIC!", JOptionPane.YES_NO_OPTION);
@@ -174,7 +175,7 @@ public class AddEventWindow extends javax.swing.JFrame {
                 return;
             }
         }
-        
+        */
         ml.addDeadlineCalendarEvent((Date)js_EventDateTime.getValue(), tf_EventName.getText(), ta_EventDescription.getText(), false);
         ml.saveDcc();
         tf_EventName.setText(null);

@@ -43,7 +43,7 @@ public class DeadlineCalendarContainer implements Serializable
     }
     
     /**
-     * Returns a copy of the reference to the arraylist containing the dc objects.
+     * Returns a copy of the reference to the ArrayList containing the dc objects.
      * highly inefficient.
      * 
      * @return 
@@ -53,6 +53,10 @@ public class DeadlineCalendarContainer implements Serializable
         return eventList;
     }
     
+    /**
+     * Overwrites the eventList ArrayList with the ArrayList from the parameter dcc
+     * @param dcc 
+     */
     public void setEvents(ArrayList<DeadlineCalendar> dcc)
     {
         eventList = dcc;

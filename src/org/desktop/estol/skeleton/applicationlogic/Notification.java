@@ -26,27 +26,47 @@ public class Notification
         wavePlayer = new WavePlayer();
     }
     
+    /**
+     * returns the name of the notification
+     * @return 
+     */
     public String getNotificationName()
     {
         return notificationName;
     }
     
+    /**
+     * returns the description of the notification
+     * @return 
+     */
     public String getNotificationDescription()
     {
         return notificationDescription;
     }
     
+    /**
+     * starts the notification process
+     * @param ml 
+     */
     public void Notify(MainLogic ml)
     {
         trayNotification();
         audioNotification(ml);
     }
     
+    /**
+     * from the Notification objects inner state, creates a bubble on the
+     * Notification Icon using the NotificationIcon enum
+     */
     private void trayNotification()
     {
         NotificationIcon.displayMessage(getNotificationName(), getNotificationDescription(), TrayIcon.MessageType.INFO);
     }
     
+    /**
+     * plays the sounds, according to the MainLogic's active Settings's sound path
+     * @param ml 
+     */
     private void audioNotification(MainLogic ml)
     {
         // TODO get this from the settings

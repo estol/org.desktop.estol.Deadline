@@ -1,6 +1,5 @@
 package org.desktop.estol.skeleton.applicationlogic;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import org.desktop.estol.skeleton.commons.NumericUtilities;
@@ -14,7 +13,7 @@ import org.desktop.estol.skeleton.debug.DebugUtilities;
  * effectively ending the execution of the thread.
  * 
  * The Heartbeat checks the DeadlineCalendar objects contained in a
- * DeadlineCalendarContainer if they have expired (in a three second window around the
+ * DeadlineCalendarContainer if they have expired (in a two second window around the
  * exact date) if it did, a Notification is triggered, the event is removed from the
  * list of active events, and added to the list of expired events
  * 
@@ -36,7 +35,7 @@ public class Heartbeat implements ThreadedUtility, Runnable
     public Heartbeat(MainLogic ml)
     {
         this.ml = ml;
-    }
+        }
     /**
      * One of the marks of poor design in ThreadedUtility interface. The method
      * cannot be used in all ThreadedUtility, but in some it is crucial.
@@ -78,7 +77,7 @@ public class Heartbeat implements ThreadedUtility, Runnable
     }
     
     /**
-     * the big loop
+     * the thread's loop
      */
     @Override
     public void run()
@@ -89,7 +88,7 @@ public class Heartbeat implements ThreadedUtility, Runnable
         {
             try {
                 //DebugUtilities.addDebugMessage("Heartbeat thread running!");
-                Iterator<DeadlineCalendar> iterator = ml.eventList.iterator();
+                Iterator<DeadlineCalendar> iterator = MainLogic.eventList.iterator();
                 while(iterator.hasNext())
                 {
                     DeadlineCalendar dc = iterator.next();
@@ -102,7 +101,7 @@ public class Heartbeat implements ThreadedUtility, Runnable
                         ml.saveDcc();
                     }
                 }
-                Thread.sleep(NumericUtilities.ONE_SECOND * 3L);
+                Thread.sleep(NumericUtilities.ONE_SECOND * 2L); // TODO convert to Thread.wait(Long l)
             }
             catch (InterruptedException e)
             {

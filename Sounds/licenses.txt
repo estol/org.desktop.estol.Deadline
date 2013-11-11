@@ -2,6 +2,3 @@ ping1.wav cameronmusic on http://www.freesound.org/people/cameronmusic/sounds/13
 ping2.wav cameronmusic on http://www.freesound.org/people/cameronmusic/sounds/138419/ CC Attribution License
 ping3.wav Robinhood75 on http://www.freesound.org/people/Robinhood76/sounds/197419/ CC Attribution Noncommercial License
 ping4.wav lukechalaudio on http://www.freesound.org/people/lukechalaudio/sounds/151568/ CC 0 License
-gameMusic/LamentOfTheHighborn.wav Blizzard Entertainment, World of Warcraft: The Burning Crusade hope it is available for fan art
-gameMusic/gameOver.wav public domain
-gameMusic/victory.wav Mortal Kombat 2 SoundFX hope it is available for fan art

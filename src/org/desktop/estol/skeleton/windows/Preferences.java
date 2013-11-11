@@ -27,7 +27,7 @@ public class Preferences extends javax.swing.JFrame {
         //\u25B8
         detectSoundFiles();
         this.ml = ml;
-    }
+        }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -164,7 +164,7 @@ public class Preferences extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tf_CalendarFilePathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_CalendarFilePathActionPerformed
-        // TODO add your handling code here:
+        // pointless, will be removed
     }//GEN-LAST:event_tf_CalendarFilePathActionPerformed
 
     private void cb_NotificationSoundsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_NotificationSoundsActionPerformed

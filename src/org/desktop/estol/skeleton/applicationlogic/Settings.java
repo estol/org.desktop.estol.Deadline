@@ -2,9 +2,6 @@ package org.desktop.estol.skeleton.applicationlogic;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import org.desktop.estol.skeleton.magic.GameScenarios.Scenario;
 
 /**
  *
@@ -16,22 +13,40 @@ public class Settings implements Serializable
      
      private HashMap settings = new HashMap();
 
+     /**
+      * puts the parameters into a HashMap datastructure, with the name parameter as key
+      * and the value parameter as value
+      * @param name
+      * @param value 
+      */
      public void addSetting(String name, String value)
      {
          settings.put(name, value);
      }
      
+     /**
+      * returns the value associated with the name parameter.
+      * if there is no such parameter, it returns null.
+      * @param name
+      * @return 
+      */
      public String getSetting(String name)
      {
          return (String) settings.get(name);
      }
      
+     /**
+      * true if there is a key -> value with the key set to name,
+      * false otherwise
+      * @param name
+      * @return 
+      */
      public boolean isSettingSet(String name)
      {
          return settings.containsKey(name);
      }
      
-     /*
+     /* //unused currently, used for my easter eggs.
      public void addScenario(String name, Scenario scenario)
      {
          settings.put(name, scenario);

@@ -1,15 +1,12 @@
 package org.desktop.estol.skeleton.windows;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import javax.swing.AbstractAction;
 import org.desktop.estol.skeleton.applicationlogic.MainLogic;
 import org.desktop.estol.skeleton.commons.NotificationIcon;
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import org.desktop.estol.skeleton.debug.DebugUtilities;
-import org.desktop.estol.skeleton.magic.gameWindows.GameWindow;
+//import org.desktop.estol.skeleton.magic.gameWindows.GameWindow;
 import org.desktop.estol.skeleton.system.windowloader.LoadWindow;
 
 /**
@@ -27,6 +24,7 @@ public class MainWindow extends javax.swing.JFrame {
         //setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) /2);
         NotificationIcon.initSystrayIcon();
         ml = new MainLogic(currentEventListModel, pastEventListModel);
+        ml.setInstance(ml);
         //throw new Exception();
         //hideTimePanel();
     }
@@ -42,26 +40,24 @@ public class MainWindow extends javax.swing.JFrame {
 
         jScrollPane2 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList();
-        jl_PastEventList = new javax.swing.JTabbedPane();
+        jtp_ListHolderTabPane = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jl_CurrentEventList = new javax.swing.JList();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList();
+        jl_PassedEventList = new javax.swing.JList();
         MenuBar = new javax.swing.JMenuBar();
         FileMenu = new javax.swing.JMenu();
         m_NewEvent = new javax.swing.JMenuItem();
-        SaveMenu = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         ExitButton = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
+        SettingsMenu = new javax.swing.JMenu();
         Preferences = new javax.swing.JMenuItem();
         DebugMenu = new javax.swing.JMenu();
         FireDebugMethod = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         DebugConsole = new javax.swing.JMenuItem();
-        DumpViewer = new javax.swing.JMenuItem();
 
         jList1.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -71,13 +67,13 @@ public class MainWindow extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jList1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Main Window");
+        setTitle("Deadline - Szabó Péter NDIUBF");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setMinimumSize(new java.awt.Dimension(30, 30));
+        setMinimumSize(new java.awt.Dimension(423, 600));
         setName("JFrame"); // NOI18N
 
-        jl_PastEventList.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
-        jl_PastEventList.setName(""); // NOI18N
+        jtp_ListHolderTabPane.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
+        jtp_ListHolderTabPane.setName(""); // NOI18N
 
         jl_CurrentEventList.setFont(new java.awt.Font("Ubuntu Mono", 0, 14)); // NOI18N
         jl_CurrentEventList.setModel(currentEventListModel);
@@ -105,12 +101,12 @@ public class MainWindow extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jl_PastEventList.addTab("Current events", jPanel1);
+        jtp_ListHolderTabPane.addTab("Current events", jPanel1);
 
-        jList2.setFont(new java.awt.Font("Ubuntu Mono", 0, 14)); // NOI18N
-        jList2.setModel(pastEventListModel);
-        jList2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane4.setViewportView(jList2);
+        jl_PassedEventList.setFont(new java.awt.Font("Ubuntu Mono", 0, 14)); // NOI18N
+        jl_PassedEventList.setModel(pastEventListModel);
+        jl_PassedEventList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane4.setViewportView(jl_PassedEventList);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -128,7 +124,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jl_PastEventList.addTab("Past events", jPanel2);
+        jtp_ListHolderTabPane.addTab("Past events", jPanel2);
 
         MenuBar.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
 
@@ -143,15 +139,6 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         FileMenu.add(m_NewEvent);
-
-        SaveMenu.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
-        SaveMenu.setText("Save");
-        SaveMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SaveMenuActionPerformed(evt);
-            }
-        });
-        FileMenu.add(SaveMenu);
         FileMenu.add(jSeparator2);
 
         ExitButton.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
@@ -165,8 +152,8 @@ public class MainWindow extends javax.swing.JFrame {
 
         MenuBar.add(FileMenu);
 
-        jMenu1.setText("Settings");
-        jMenu1.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
+        SettingsMenu.setText("Settings");
+        SettingsMenu.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
 
         Preferences.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
         Preferences.setText("Preferences");
@@ -175,9 +162,9 @@ public class MainWindow extends javax.swing.JFrame {
                 PreferencesActionPerformed(evt);
             }
         });
-        jMenu1.add(Preferences);
+        SettingsMenu.add(Preferences);
 
-        MenuBar.add(jMenu1);
+        MenuBar.add(SettingsMenu);
 
         DebugMenu.setText("Debug");
         DebugMenu.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
@@ -202,15 +189,6 @@ public class MainWindow extends javax.swing.JFrame {
         });
         DebugMenu.add(DebugConsole);
 
-        DumpViewer.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
-        DumpViewer.setText("Dump Viewer");
-        DumpViewer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DumpViewerActionPerformed(evt);
-            }
-        });
-        DebugMenu.add(DumpViewer);
-
         MenuBar.add(DebugMenu);
 
         setJMenuBar(MenuBar);
@@ -221,14 +199,14 @@ public class MainWindow extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jl_PastEventList)
+                .addComponent(jtp_ListHolderTabPane)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jl_PastEventList)
+                .addComponent(jtp_ListHolderTabPane)
                 .addContainerGap())
         );
 
@@ -236,9 +214,7 @@ public class MainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void FireDebugMethodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FireDebugMethodActionPerformed
-        new LoadWindow(new GameWindow());        //DeadlineCalendar dc = new DeadlineCalendar();
-        //new Thread(new ObjectStreamWriter(dc, "testfile.object")).run();
-        //DebugUtilities.addDebugMessage(new ObjectStreamReader("testfile.object").read().toString());
+        JOptionPane.showMessageDialog(null, "BANG!", "BANG BANG!", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_FireDebugMethodActionPerformed
 
     private void DebugConsoleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DebugConsoleActionPerformed
@@ -255,21 +231,6 @@ public class MainWindow extends javax.swing.JFrame {
     private void ExitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitButtonActionPerformed
         LoadWindow.Terminate();
     }//GEN-LAST:event_ExitButtonActionPerformed
-
-    private void DumpViewerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DumpViewerActionPerformed
-        if (dv != null && dv.isVisible()) {
-            dv.setVisible(false);
-        } else {
-            if (dv == null) {
-                dv = new DumpViewer();
-            }
-            new LoadWindow(dv);
-        }
-    }//GEN-LAST:event_DumpViewerActionPerformed
-
-    private void SaveMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveMenuActionPerformed
-        ml.saveDcc();
-    }//GEN-LAST:event_SaveMenuActionPerformed
 
     private void PreferencesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PreferencesActionPerformed
         if (p != null && p.isVisible()) {
@@ -313,7 +274,6 @@ public class MainWindow extends javax.swing.JFrame {
     }
     
     private static DebugWindow dw = null;
-    private static DumpViewer dv = null;
     private static Preferences p = null;
     private static AddEventWindow aew = null;
     private MainLogic ml;
@@ -322,16 +282,13 @@ public class MainWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem DebugConsole;
     private javax.swing.JMenu DebugMenu;
-    private javax.swing.JMenuItem DumpViewer;
     private javax.swing.JMenuItem ExitButton;
     private javax.swing.JMenu FileMenu;
     private javax.swing.JMenuItem FireDebugMethod;
     private javax.swing.JMenuBar MenuBar;
     private javax.swing.JMenuItem Preferences;
-    private javax.swing.JMenuItem SaveMenu;
+    private javax.swing.JMenu SettingsMenu;
     private javax.swing.JList jList1;
-    private javax.swing.JList jList2;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
@@ -340,7 +297,8 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JList jl_CurrentEventList;
-    private javax.swing.JTabbedPane jl_PastEventList;
+    private javax.swing.JList jl_PassedEventList;
+    private javax.swing.JTabbedPane jtp_ListHolderTabPane;
     private javax.swing.JMenuItem m_NewEvent;
     // End of variables declaration//GEN-END:variables
 }
