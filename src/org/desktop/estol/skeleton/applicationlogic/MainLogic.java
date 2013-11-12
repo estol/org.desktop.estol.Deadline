@@ -82,7 +82,7 @@ public class MainLogic
         if (existsFlag)
         {
             loadDcc();
-            filCurrentlEventList();
+            fillCurrentEventList();
         }
     }
     
@@ -94,8 +94,10 @@ public class MainLogic
     {
         if (eventList.size() != 0)
         {
+            fillPastEventList(eventList.get(index));
             eventList.remove(index);
-            //hb.triggerUpdate();
+            fillCurrentEventList();
+            saveDcc();
         }
         else
         {
@@ -146,7 +148,8 @@ public class MainLogic
             currentNotificationSoundPath = settings.getSetting("notificationSoundPath");
             if (new File(currentDccPath).exists())
             {
-                dcc = (DeadlineCalendarContainer) new ObjectStreamReader(currentDccPath).read();
+                //dcc = (DeadlineCalendarContainer) new ObjectStreamReader(currentDccPath).read();
+                loadDcc();
             }
             else
             {
@@ -160,7 +163,9 @@ public class MainLogic
             settings.addSetting("notificationSoundPath", defaultNotificationSoundPath);
             settings.addSetting("dccPath", defaultDccPath);
             currentDccPath = defaultDccPath;
+            currentNotificationSoundPath = defaultNotificationSoundPath;
             dcc = new DeadlineCalendarContainer();
+            eventList = dcc.getEvents();
             saveSettings();
             saveDcc();
             if (hb != null && !hb.isRunning())
@@ -183,7 +188,7 @@ public class MainLogic
         eventList.add(dcEvent);
         dcc.setEvents(eventList);
         saveDcc();
-        filCurrentlEventList();
+        fillCurrentEventList();
         //hb.triggerUpdate();
     }
     
@@ -262,7 +267,7 @@ public class MainLogic
      * Yes, I know the Iterator is the slowest form of looping through a pile of data,
      * but the difference is not that big, and the code looks more elegant.
      */
-    protected final void filCurrentlEventList()
+    protected final void fillCurrentEventList()
     {
         if (eventList.size() > 0)
         {
@@ -284,7 +289,7 @@ public class MainLogic
         }
             
     }
-
+    
     /**
      * returns the path to the notification sounds
      * @return 

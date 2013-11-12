@@ -10,7 +10,9 @@ import org.desktop.estol.skeleton.commons.ObjectStreamWriter;
 public class GlobalExceptionHandler implements UncaughtExceptionHandler
 {
     /**
-     * FIXME reading the dump doesn't work yet.
+     * TODO decide if the program is in working state after the exception, and try
+     * to continue if it is.
+     * 
      * @param t
      * @param e 
      */

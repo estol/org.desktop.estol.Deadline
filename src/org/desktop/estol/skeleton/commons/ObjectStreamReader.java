@@ -1,5 +1,6 @@
 package org.desktop.estol.skeleton.commons;
 
+import java.awt.TrayIcon;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -38,6 +39,7 @@ public class ObjectStreamReader
         catch (IOException | ClassNotFoundException e)
         {
             DebugUtilities.addDebugMessage("Reading from " + path + " failed!\nException occured: " + e.getMessage());
+            NotificationIcon.displayMessage("Reading from a file have failed!", "An exception occured while reading " + path + ". Does the current user has sufficient rights to read this file at this location?", TrayIcon.MessageType.ERROR);
         }
         return rObject;
     }

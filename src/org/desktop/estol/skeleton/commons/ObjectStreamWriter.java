@@ -1,5 +1,6 @@
 package org.desktop.estol.skeleton.commons;
 
+import java.awt.TrayIcon;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -81,6 +82,7 @@ public class ObjectStreamWriter implements ThreadedUtility, Runnable
         catch (IOException e)
         {
             DebugUtilities.addDebugMessage("Writing to " + path + "failed!\nException occured: " + e.getMessage());
+            NotificationIcon.displayMessage("Writing to a file have failed!", "An exception occured while writing " + path + ". Does the current user has sufficient rights to write this file at this location?", TrayIcon.MessageType.ERROR);
             shutdown();
         }
         shutdown();

@@ -44,8 +44,8 @@ public class LoadWindow
 
         @Override
         public void run() {
-            WindowCount++;
             Thread.currentThread().setName("Window " + WindowCount);
+            WindowCount++;
             setWindowPosition();
             window.setVisible(true);
         }
@@ -79,6 +79,7 @@ public class LoadWindow
                 DebugUtilities.addDebugMessage(ex.getMessage());
             }
             java.awt.EventQueue.invokeLater(window);
+            //new Thread(window).start();
         }
     }
     
@@ -116,6 +117,7 @@ public class LoadWindow
     
     public static void Terminate()
     {
+        Thread.currentThread().setName("Terminate");
         for (JFrame w : windows)
         {
             w.dispose();

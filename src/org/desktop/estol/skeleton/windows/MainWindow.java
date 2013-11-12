@@ -50,8 +50,9 @@ public class MainWindow extends javax.swing.JFrame {
         MenuBar = new javax.swing.JMenuBar();
         FileMenu = new javax.swing.JMenu();
         m_NewEvent = new javax.swing.JMenuItem();
+        m_About = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
-        ExitButton = new javax.swing.JMenuItem();
+        m_ExitButton = new javax.swing.JMenuItem();
         SettingsMenu = new javax.swing.JMenu();
         Preferences = new javax.swing.JMenuItem();
         DebugMenu = new javax.swing.JMenu();
@@ -139,16 +140,25 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         FileMenu.add(m_NewEvent);
-        FileMenu.add(jSeparator2);
 
-        ExitButton.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
-        ExitButton.setText("Exit (terminate application)");
-        ExitButton.addActionListener(new java.awt.event.ActionListener() {
+        m_About.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
+        m_About.setText("About");
+        m_About.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ExitButtonActionPerformed(evt);
+                m_AboutActionPerformed(evt);
             }
         });
-        FileMenu.add(ExitButton);
+        FileMenu.add(m_About);
+        FileMenu.add(jSeparator2);
+
+        m_ExitButton.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
+        m_ExitButton.setText("Exit (terminate application)");
+        m_ExitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_ExitButtonActionPerformed(evt);
+            }
+        });
+        FileMenu.add(m_ExitButton);
 
         MenuBar.add(FileMenu);
 
@@ -228,9 +238,9 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_DebugConsoleActionPerformed
 
-    private void ExitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitButtonActionPerformed
+    private void m_ExitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_ExitButtonActionPerformed
         LoadWindow.Terminate();
-    }//GEN-LAST:event_ExitButtonActionPerformed
+    }//GEN-LAST:event_m_ExitButtonActionPerformed
 
     private void PreferencesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PreferencesActionPerformed
         if (p != null && p.isVisible()) {
@@ -265,6 +275,17 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jl_CurrentEventListKeyPressed
 
+    private void m_AboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_AboutActionPerformed
+        if (about != null && about.isVisible()) {
+            about.setVisible(false);
+        } else {
+            if (about == null) {
+                about = new About();
+            }
+            new LoadWindow(about);
+        }
+    }//GEN-LAST:event_m_AboutActionPerformed
+
     @Override
     public void dispose() {
         LoadWindow.windowDestroyed();
@@ -276,13 +297,13 @@ public class MainWindow extends javax.swing.JFrame {
     private static DebugWindow dw = null;
     private static Preferences p = null;
     private static AddEventWindow aew = null;
+    private static About about = null;
     private MainLogic ml;
     protected DefaultListModel currentEventListModel = new DefaultListModel();
     protected DefaultListModel pastEventListModel = new DefaultListModel();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem DebugConsole;
     private javax.swing.JMenu DebugMenu;
-    private javax.swing.JMenuItem ExitButton;
     private javax.swing.JMenu FileMenu;
     private javax.swing.JMenuItem FireDebugMethod;
     private javax.swing.JMenuBar MenuBar;
@@ -299,6 +320,8 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JList jl_CurrentEventList;
     private javax.swing.JList jl_PassedEventList;
     private javax.swing.JTabbedPane jtp_ListHolderTabPane;
+    private javax.swing.JMenuItem m_About;
+    private javax.swing.JMenuItem m_ExitButton;
     private javax.swing.JMenuItem m_NewEvent;
     // End of variables declaration//GEN-END:variables
 }

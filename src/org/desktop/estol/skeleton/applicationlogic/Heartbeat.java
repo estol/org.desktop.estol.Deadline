@@ -97,7 +97,7 @@ public class Heartbeat implements ThreadedUtility, Runnable
                         dc.generateNotification().Notify(ml);
                         ml.fillPastEventList(dc);
                         iterator.remove();
-                        ml.filCurrentlEventList();
+                        ml.fillCurrentEventList();
                         ml.saveDcc();
                     }
                 }
